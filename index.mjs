@@ -28,11 +28,18 @@ const client = new OpenAI({
   timeout: 60_000,
 });
 
-const pilotQuestions = JSON.parse(
-  readFileSync(new URL("./dialect/data/pilot-questions.json", import.meta.url), "utf8"),
+const questionsSource = "questions/review-001.json";
+const questions = JSON.parse(
+  readFileSync(new URL(`./${questionsSource}`, import.meta.url), "utf8"),
 );
-const question = process.argv.slice(2).join(" ").trim() || pilotQuestions[0].question;
-const questionId = pilotQuestions.find(item => item.question === question)?.id ?? "manual";
+const selection = process.argv.slice(2).join(" ").trim();
+const selected = selection
+  ? questions.find(item => item.id === selection || item.question === selection)
+  : questions[0];
+if (!selected) {
+  throw new Error(`Choose a question ID or exact question from ${questionsSource}.`);
+}
+const { id: questionId, question } = selected;
 const localRequestId = `dialect-${questionId}-${randomUUID()}`;
 const request = {
   model: MODEL,
@@ -60,6 +67,7 @@ const report = {
   local_request_id: localRequestId,
   session_tracking: "Mubit derives the session from the instructions and first user message.",
   question_id: questionId,
+  questions_source: questionsSource,
   task_signature: TASK_SIGNATURE,
   started_at: new Date().toISOString(),
   status: "sending",

@@ -186,7 +186,9 @@ Implemented in [`dialect/task.mjs`](dialect/task.mjs): fixed role + reference da
 
 [`dialect/task-lock.json`](dialect/task-lock.json) records hashes for the company definitions, prompt and schema, plus the model and output format. `index.mjs` verifies the lock before any API call. **Once training traffic starts, never edit the task**, since wording or configuration changes can create a new task and restart collection. Deliberate changes require a new task version and evaluation baseline.
 
-Run one question with `npm start -- "Revenue by country this year"`; `npm start` alone sends only the first pilot question. The starter-credit runner uses automatic Mubit sessions and saves its local request ID, Mubit request ID when available, and request/response in `dialect/results/`. Direct OpenAI baseline runs are recorded separately. Check the Mubit logs and console for actual training traffic.
+**Current workflow:** question–label pairs live in `questions/`; both runners currently read `questions/review-001.json`. Run one question through Mubit with `npm start -- q_001`; `npm start` alone selects the first entry in that file. Calls send only the question and fixed instructions. Both Mubit and direct OpenAI runners save raw responses in `dialect/results/` without comparing them to expected labels. Evaluation runs separately and writes comparisons to `evaluations/`. Earlier direct OpenAI baseline logs contain inline scores from the previous workflow.
+
+The starter-credit Mubit runner uses automatic sessions and saves the source question file, question ID, local request ID, Mubit request ID when available, and request/response. Check the logs and console for actual training traffic.
 
 ### 5.5 Example question–answer pairs
 [`dialect/contract-examples.json`](dialect/contract-examples.json) contains 18 handwritten examples with complete labels and rule explanations, including ambiguity and unsupported requests. These are contract examples, not the held-out evaluation set. The table below abbreviates null fields for readability; actual outputs must include them and the required period.

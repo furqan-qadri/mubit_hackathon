@@ -1,4 +1,4 @@
-import { isDeepStrictEqual, parseArgs } from "node:util";
+import { parseArgs } from "node:util";
 import { randomUUID } from "node:crypto";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { loadEnvFile } from "node:process";
@@ -43,7 +43,7 @@ export function createDirectClient(apiKey) {
 export async function runPilot(client, questions, onResult = () => {}, { model = MODEL } = {}) {
   const requestSettings = settingsFor(model);
   const results = [];
-  for (const { id, question, expected } of questions) {
+  for (const { id, question } of questions) {
     const start = performance.now();
     const response = await client.chat.completions.create({
       model,
@@ -57,27 +57,11 @@ export async function runPilot(client, questions, onResult = () => {}, { model =
     const latency_ms = Math.round(performance.now() - start);
     const choice = response.choices[0];
     const raw_response = choice?.message.content ?? null;
-    let actual = null;
-    let json_valid = false;
-    if (typeof raw_response === "string") {
-      try {
-        actual = JSON.parse(raw_response);
-        json_valid = true;
-      } catch {
-        // Invalid JSON is a failed answer; preserve the raw text for inspection.
-      }
-    }
     const result = {
       id,
       question,
-      expected,
-      actual,
+      response,
       raw_response,
-      json_valid,
-      correct:
-        json_valid &&
-        choice?.finish_reason === "stop" &&
-        isDeepStrictEqual(actual, expected),
       finish_reason: choice?.finish_reason ?? null,
       model: response.model,
       request_id: response._request_id ?? null,
@@ -101,18 +85,20 @@ async function main() {
   const client = createDirectClient(
     process.env.OPENAI_API_KEY?.trim() || process.env.OPEN_AI_KEY?.trim(),
   );
+  const questionsSource = "questions/review-001.json";
   const questions = JSON.parse(
-    readFileSync(new URL("./dialect/data/pilot-questions.json", import.meta.url), "utf8"),
+    readFileSync(new URL(`./${questionsSource}`, import.meta.url), "utf8"),
   );
   const runId = `${new Date().toISOString().replaceAll(/[:.]/g, "-")}-${randomUUID().slice(0, 8)}`;
   const outputDirectory = new URL("./dialect/results/", import.meta.url);
-  const outputFile = new URL(`openai-pilot-${model}-${runId}.json`, outputDirectory);
+  const outputFile = new URL(`openai-questions-${model}-${runId}.json`, outputDirectory);
   const report = {
     provider: "openai-direct",
     base_url: OPENAI_BASE_URL,
     requested_model: model,
     request_settings: requestSettings,
-    task_signature: { ...TASK_SIGNATURE, model },
+    questions_source: questionsSource,
+    task_signature: { ...TASK_SIGNATURE, model, request_settings: requestSettings },
     started_at: new Date().toISOString(),
     status: "running",
     total_questions: questions.length,
@@ -126,7 +112,7 @@ async function main() {
     await runPilot(client, questions, result => {
       report.results.push(result);
       save();
-      console.log(`${result.id}: ${result.correct ? "PASS" : "FAIL"} (${result.latency_ms} ms)`);
+      console.log(`${result.id}: response received (${result.latency_ms} ms)`);
     }, { model });
     report.status = "completed";
   } catch (error) {
@@ -141,11 +127,8 @@ async function main() {
     process.exitCode = 1;
   }
   report.finished_at = new Date().toISOString();
-  const correct = report.results.filter(result => result.correct).length;
   report.summary = {
     answered: report.results.length,
-    correct,
-    accuracy: report.results.length ? correct / report.results.length : null,
     average_latency_ms: report.results.length
       ? Math.round(report.results.reduce((sum, result) => sum + result.latency_ms, 0) / report.results.length)
       : null,
@@ -153,7 +136,7 @@ async function main() {
     completion_tokens: report.results.reduce((sum, result) => sum + (result.usage?.completion_tokens ?? 0), 0),
   };
   save();
-  console.log(`Correct: ${correct}/${report.results.length} answered (${questions.length} planned).`);
+  console.log(`Saved ${report.results.length}/${questions.length} responses. Evaluation runs separately.`);
   console.log(`Results: ${fileURLToPath(outputFile)}`);
 }
 
