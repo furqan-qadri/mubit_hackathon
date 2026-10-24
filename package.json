@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "start": "node index.mjs",
-    "test:openai": "node test-openai.mjs"
+    "test:openai": "node test-openai.mjs",
+    "send:mubit": "node send-mubit.mjs"
   },
   "engines": {
     "node": ">=22"
