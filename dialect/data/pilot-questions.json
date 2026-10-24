@@ -1,0 +1,112 @@
+[
+  {
+    "id": "pilot_001",
+    "question": "How many active users do we have in Britain on the Team plan?",
+    "expected": {
+      "metric": "count_customers",
+      "filter": "active",
+      "period": "today",
+      "group_by": null,
+      "plan": "Team",
+      "country": "GB"
+    }
+  },
+  {
+    "id": "pilot_002",
+    "question": "At the end of last quarter, how many customers had churned, broken down by plan?",
+    "expected": {
+      "metric": "count_customers",
+      "filter": "churned",
+      "period": "last_quarter",
+      "group_by": "plan",
+      "plan": null,
+      "country": null
+    }
+  },
+  {
+    "id": "pilot_003",
+    "question": "How many free trial users did we have in Canada at the end of September?",
+    "expected": {
+      "metric": "count_customers",
+      "filter": "trial",
+      "period": "2026-09",
+      "group_by": null,
+      "plan": null,
+      "country": "CA"
+    }
+  },
+  {
+    "id": "pilot_004",
+    "question": "What were sales from Business customers last month, split by country?",
+    "expected": {
+      "metric": "net_revenue",
+      "filter": null,
+      "period": "last_month",
+      "group_by": "country",
+      "plan": "Business",
+      "country": null
+    }
+  },
+  {
+    "id": "pilot_005",
+    "question": "What did we bring in before refunds in March?",
+    "expected": {
+      "metric": "gross_revenue",
+      "filter": null,
+      "period": "2026-03",
+      "group_by": null,
+      "plan": null,
+      "country": null
+    }
+  },
+  {
+    "id": "pilot_006",
+    "question": "How much money did we return to customers in America this year?",
+    "expected": {
+      "metric": "refund_amount",
+      "filter": null,
+      "period": "this_year",
+      "group_by": null,
+      "plan": null,
+      "country": "US"
+    }
+  },
+  {
+    "id": "pilot_007",
+    "question": "What was ARPC for the Team plan in Q2?",
+    "expected": {
+      "metric": "avg_revenue_per_customer",
+      "filter": null,
+      "period": "2026-Q2",
+      "group_by": null,
+      "plan": "Team",
+      "country": null
+    }
+  },
+  {
+    "id": "pilot_008",
+    "question": "How many sign-ins have trial users made this month, grouped by their signup month?",
+    "expected": {
+      "metric": "login_count",
+      "filter": "trial",
+      "period": "this_month",
+      "group_by": "signup_month",
+      "plan": null,
+      "country": null
+    }
+  },
+  {
+    "id": "pilot_009",
+    "question": "How much revenue have we made lately?",
+    "expected": {
+      "error": "needs_clarification"
+    }
+  },
+  {
+    "id": "pilot_010",
+    "question": "How many different customers logged in this month?",
+    "expected": {
+      "error": "unsupported"
+    }
+  }
+]
