@@ -1,0 +1,76 @@
+{
+  "evaluated_at": "2026-10-24T15:34:12.788617+00:00",
+  "source_result": "dialect/results/mubit-dialect-pilot_001-74286a58-0974-4fe6-91b7-8135d0ad41b2.json",
+  "source_result_sha256": "73110ca2154c4edd6b9fc564f7bfd657baeb60b48ea8932c67a5535abac54d41",
+  "questions_source": "dialect/data/pilot-questions.json",
+  "schema_source": "dialect/query-spec.schema.json",
+  "comparison_method": "Validate JSON schema, then compare exact objects ignoring key order and retaining required null fields.",
+  "provider": "mubit",
+  "model": "gpt-6-sol",
+  "mubit_request_id": "mreq_01a16e7f45e17cb0abaf173603f0a30c",
+  "question_id": "pilot_001",
+  "question": "How many active users do we have in Britain on the Team plan?",
+  "expected": {
+    "metric": "count_customers",
+    "filter": "active",
+    "period": "today",
+    "group_by": null,
+    "plan": "Team",
+    "country": "GB"
+  },
+  "actual": {
+    "metric": "count_customers",
+    "filter": "active",
+    "period": "today",
+    "group_by": null,
+    "plan": "Team",
+    "country": "GB"
+  },
+  "checks": {
+    "request_completed": true,
+    "finish_reason_stop": true,
+    "json_valid": true,
+    "schema_valid": true,
+    "exact_match": true
+  },
+  "schema_errors": [],
+  "field_comparison": [
+    {
+      "field": "metric",
+      "expected": "count_customers",
+      "actual": "count_customers",
+      "matches": true
+    },
+    {
+      "field": "filter",
+      "expected": "active",
+      "actual": "active",
+      "matches": true
+    },
+    {
+      "field": "period",
+      "expected": "today",
+      "actual": "today",
+      "matches": true
+    },
+    {
+      "field": "group_by",
+      "expected": null,
+      "actual": null,
+      "matches": true
+    },
+    {
+      "field": "plan",
+      "expected": "Team",
+      "actual": "Team",
+      "matches": true
+    },
+    {
+      "field": "country",
+      "expected": "GB",
+      "actual": "GB",
+      "matches": true
+    }
+  ],
+  "correct": true
+}
