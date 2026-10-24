@@ -1,5 +1,5 @@
 import { parseArgs } from "node:util";
-import { randomUUID } from "node:crypto";
+import { createHash, randomUUID } from "node:crypto";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { loadEnvFile } from "node:process";
 import { pathToFileURL, fileURLToPath } from "node:url";
@@ -45,7 +45,7 @@ export async function runPilot(client, questions, onResult = () => {}, { model =
   const results = [];
   for (const { id, question } of questions) {
     const start = performance.now();
-    const response = await client.chat.completions.create({
+    const request = {
       model,
       ...requestSettings,
       response_format: RESPONSE_FORMAT,
@@ -53,13 +53,15 @@ export async function runPilot(client, questions, onResult = () => {}, { model =
         { role: "system", content: SYSTEM_PROMPT },
         { role: "user", content: question },
       ],
-    });
+    };
+    const response = await client.chat.completions.create(request);
     const latency_ms = Math.round(performance.now() - start);
     const choice = response.choices[0];
     const raw_response = choice?.message.content ?? null;
     const result = {
       id,
       question,
+      request,
       response,
       raw_response,
       finish_reason: choice?.finish_reason ?? null,
@@ -76,8 +78,11 @@ export async function runPilot(client, questions, onResult = () => {}, { model =
 
 async function main() {
   assertTaskLock();
-  const { values: { model } } = parseArgs({
-    options: { model: { type: "string", default: MODEL } },
+  const { values: { model, source: questionsSource } } = parseArgs({
+    options: {
+      model: { type: "string", default: MODEL },
+      source: { type: "string", default: "questions/review-001.json" },
+    },
     allowPositionals: false,
   });
   const requestSettings = settingsFor(model);
@@ -85,10 +90,13 @@ async function main() {
   const client = createDirectClient(
     process.env.OPENAI_API_KEY?.trim() || process.env.OPEN_AI_KEY?.trim(),
   );
-  const questionsSource = "questions/review-001.json";
-  const questions = JSON.parse(
-    readFileSync(new URL(`./${questionsSource}`, import.meta.url), "utf8"),
-  );
+  const sourceText = readFileSync(new URL(`./${questionsSource}`, import.meta.url), "utf8");
+  const questions = JSON.parse(sourceText);
+  if (!Array.isArray(questions) || !questions.length ||
+      questions.some(q => typeof q.id !== "string" || typeof q.question !== "string" || !q.question.trim()) ||
+      new Set(questions.map(q => q.id)).size !== questions.length) {
+    throw new Error("Question source must contain nonempty questions with unique IDs.");
+  }
   const runId = `${new Date().toISOString().replaceAll(/[:.]/g, "-")}-${randomUUID().slice(0, 8)}`;
   const outputDirectory = new URL("./dialect/results/", import.meta.url);
   const outputFile = new URL(`openai-questions-${model}-${runId}.json`, outputDirectory);
@@ -98,6 +106,7 @@ async function main() {
     requested_model: model,
     request_settings: requestSettings,
     questions_source: questionsSource,
+    questions_sha256: createHash("sha256").update(sourceText).digest("hex"),
     task_signature: { ...TASK_SIGNATURE, model, request_settings: requestSettings },
     started_at: new Date().toISOString(),
     status: "running",
@@ -117,6 +126,7 @@ async function main() {
     report.status = "completed";
   } catch (error) {
     report.status = "failed";
+    report.failed_question_id = questions[report.results.length]?.id ?? null;
     // Avoid writing SDK error objects, headers or credentials to logs/files.
     report.error = {
       name: error.name,

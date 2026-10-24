@@ -1,0 +1,392 @@
+[
+  {
+    "id": "holdout_001",
+    "question": "For our Canadian Team accounts that are still paying, give today's customer headcount by signup cohort.",
+    "expected": {
+      "metric": "count_customers",
+      "filter": "active",
+      "period": "today",
+      "group_by": "signup_month",
+      "plan": "Team",
+      "country": "CA"
+    },
+    "category": "count_customers",
+    "rationale": "Still paying means active; signup cohort maps to signup_month; Canadian maps to CA."
+  },
+  {
+    "id": "holdout_002",
+    "question": "As of the October snapshot, how many Australian Business accounts had never made a qualifying payment?",
+    "expected": {
+      "metric": "count_customers",
+      "filter": "trial",
+      "period": "2026-10",
+      "group_by": null,
+      "plan": "Business",
+      "country": "AU"
+    },
+    "category": "count_customers",
+    "rationale": "Never paid means trial. A named month uses the reference year and is capped at the reference date."
+  },
+  {
+    "id": "holdout_003",
+    "question": "At the close of Q3, split Germany's lost-customer count by subscription plan.",
+    "expected": {
+      "metric": "count_customers",
+      "filter": "churned",
+      "period": "2026-Q3",
+      "group_by": "plan",
+      "plan": null,
+      "country": "DE"
+    },
+    "category": "count_customers",
+    "rationale": "Lost customers means churned; a named quarter remains explicit."
+  },
+  {
+    "id": "holdout_004",
+    "question": "At last year's closing snapshot, count every US Starter account by signup month, including accounts that never paid.",
+    "expected": {
+      "metric": "count_customers",
+      "filter": null,
+      "period": "last_year",
+      "group_by": "signup_month",
+      "plan": "Starter",
+      "country": "US"
+    },
+    "category": "count_customers",
+    "rationale": "All customers includes trials without a status restriction; use the period-end snapshot."
+  },
+  {
+    "id": "holdout_005",
+    "question": "For British Business accounts active at the snapshot, split this week's sales by signup cohort.",
+    "expected": {
+      "metric": "net_revenue",
+      "filter": "active",
+      "period": "this_week",
+      "group_by": "signup_month",
+      "plan": "Business",
+      "country": "GB"
+    },
+    "category": "net_revenue",
+    "rationale": "Sales defaults to net revenue; status is evaluated at the period-end snapshot."
+  },
+  {
+    "id": "holdout_006",
+    "question": "Give February earnings for Australian Team customers, retaining a country breakdown.",
+    "expected": {
+      "metric": "net_revenue",
+      "filter": null,
+      "period": "2026-02",
+      "group_by": "country",
+      "plan": "Team",
+      "country": "AU"
+    },
+    "category": "net_revenue",
+    "rationale": "Earnings means net revenue. A country restriction can coexist with country grouping."
+  },
+  {
+    "id": "holdout_007",
+    "question": "For the Canadian cohort churned at quarter end, show last quarter's revenue separately for each plan.",
+    "expected": {
+      "metric": "net_revenue",
+      "filter": "churned",
+      "period": "last_quarter",
+      "group_by": "plan",
+      "plan": null,
+      "country": "CA"
+    },
+    "category": "net_revenue",
+    "rationale": "Revenue defaults to net revenue; the churned filter is a snapshot cohort."
+  },
+  {
+    "id": "holdout_008",
+    "question": "What did French Starter customers actually make us after refunds, broken down by signup month?",
+    "expected": {
+      "metric": "net_revenue",
+      "filter": null,
+      "period": "this_month",
+      "group_by": "signup_month",
+      "plan": "Starter",
+      "country": "FR"
+    },
+    "category": "net_revenue",
+    "rationale": "Actually made and after refunds mean net revenue; omitted monetary period defaults to this_month."
+  },
+  {
+    "id": "holdout_009",
+    "question": "Show this month's revenue before returns for German Team accounts that are on trial at the snapshot.",
+    "expected": {
+      "metric": "gross_revenue",
+      "filter": "trial",
+      "period": "this_month",
+      "group_by": null,
+      "plan": "Team",
+      "country": "DE"
+    },
+    "category": "gross_revenue",
+    "rationale": "Before returns means gross revenue; a trial cohort restriction is representable even if the executed result is zero."
+  },
+  {
+    "id": "holdout_010",
+    "question": "For US Business customers, break July's revenue before refunds into signup-month cohorts.",
+    "expected": {
+      "metric": "gross_revenue",
+      "filter": null,
+      "period": "2026-07",
+      "group_by": "signup_month",
+      "plan": "Business",
+      "country": "US"
+    },
+    "category": "gross_revenue",
+    "rationale": "Before refunds overrides the net-revenue default; named July means 2026-07."
+  },
+  {
+    "id": "holdout_011",
+    "question": "Among Australian customers active at week end, show last week's gross revenue with country grouping.",
+    "expected": {
+      "metric": "gross_revenue",
+      "filter": "active",
+      "period": "last_week",
+      "group_by": "country",
+      "plan": null,
+      "country": "AU"
+    },
+    "category": "gross_revenue",
+    "rationale": "Gross revenue ignores refunds; group and country restriction coexist."
+  },
+  {
+    "id": "holdout_012",
+    "question": "What is Q4 2026 revenue before refunds for Starter accounts in France, through the reference date?",
+    "expected": {
+      "metric": "gross_revenue",
+      "filter": null,
+      "period": "2026-Q4",
+      "group_by": null,
+      "plan": "Starter",
+      "country": "FR"
+    },
+    "category": "gross_revenue",
+    "rationale": "Q4 has already begun at the reference date; cap it rather than rejecting the partly future quarter."
+  },
+  {
+    "id": "holdout_013",
+    "question": "For Canadian Starter customers, show last year's money returned, grouped by country.",
+    "expected": {
+      "metric": "refund_amount",
+      "filter": null,
+      "period": "last_year",
+      "group_by": "country",
+      "plan": "Starter",
+      "country": "CA"
+    },
+    "category": "refund_amount",
+    "rationale": "Money returned means refund_amount; last_year is the previous calendar year."
+  },
+  {
+    "id": "holdout_014",
+    "question": "Break April refunds to American Team customers active at month end down by signup month.",
+    "expected": {
+      "metric": "refund_amount",
+      "filter": "active",
+      "period": "2026-04",
+      "group_by": "signup_month",
+      "plan": "Team",
+      "country": "US"
+    },
+    "category": "refund_amount",
+    "rationale": "Refunds are their own metric; use the active month-end cohort and US alias."
+  },
+  {
+    "id": "holdout_015",
+    "question": "How much money went back to French Business customers who are churned at the snapshot?",
+    "expected": {
+      "metric": "refund_amount",
+      "filter": "churned",
+      "period": "this_month",
+      "group_by": null,
+      "plan": "Business",
+      "country": "FR"
+    },
+    "category": "refund_amount",
+    "rationale": "Money going back means refund_amount; omitted period is this_month."
+  },
+  {
+    "id": "holdout_016",
+    "question": "For Britain, split this quarter's total refund amount by plan.",
+    "expected": {
+      "metric": "refund_amount",
+      "filter": null,
+      "period": "this_quarter",
+      "group_by": "plan",
+      "plan": null,
+      "country": "GB"
+    },
+    "category": "refund_amount",
+    "rationale": "Britain maps to GB; refunds do not mean net revenue."
+  },
+  {
+    "id": "holdout_017",
+    "question": "Show year-to-date ARPC by signup cohort for French Starter customers active at the snapshot.",
+    "expected": {
+      "metric": "avg_revenue_per_customer",
+      "filter": "active",
+      "period": "this_year",
+      "group_by": "signup_month",
+      "plan": "Starter",
+      "country": "FR"
+    },
+    "category": "avg_revenue_per_customer",
+    "rationale": "ARPC uses the company definition; year-to-date means this_year."
+  },
+  {
+    "id": "holdout_018",
+    "question": "For British Business accounts, give last month's average revenue per customer, grouped by country.",
+    "expected": {
+      "metric": "avg_revenue_per_customer",
+      "filter": null,
+      "period": "last_month",
+      "group_by": "country",
+      "plan": "Business",
+      "country": "GB"
+    },
+    "category": "avg_revenue_per_customer",
+    "rationale": "Average revenue per customer maps to avg_revenue_per_customer with both restriction and grouping."
+  },
+  {
+    "id": "holdout_019",
+    "question": "What was January ARPC for Canadian customers churned at month end?",
+    "expected": {
+      "metric": "avg_revenue_per_customer",
+      "filter": "churned",
+      "period": "2026-01",
+      "group_by": null,
+      "plan": null,
+      "country": "CA"
+    },
+    "category": "avg_revenue_per_customer",
+    "rationale": "Named January uses the reference year and the churned cohort at that month-end snapshot."
+  },
+  {
+    "id": "holdout_020",
+    "question": "What is average revenue per customer for Australian Team accounts?",
+    "expected": {
+      "metric": "avg_revenue_per_customer",
+      "filter": null,
+      "period": "this_month",
+      "group_by": null,
+      "plan": "Team",
+      "country": "AU"
+    },
+    "category": "avg_revenue_per_customer",
+    "rationale": "ARPC defaults to this_month when no period is specified."
+  },
+  {
+    "id": "holdout_021",
+    "question": "Today, count successful sign-ins from French Business trial accounts by signup cohort.",
+    "expected": {
+      "metric": "login_count",
+      "filter": "trial",
+      "period": "today",
+      "group_by": "signup_month",
+      "plan": "Business",
+      "country": "FR"
+    },
+    "category": "login_count",
+    "rationale": "Sign-ins count events; trial users can log in without becoming active customers."
+  },
+  {
+    "id": "holdout_022",
+    "question": "For British Starter customers active at quarter end, count successful login events in Q2.",
+    "expected": {
+      "metric": "login_count",
+      "filter": "active",
+      "period": "2026-Q2",
+      "group_by": null,
+      "plan": "Starter",
+      "country": "GB"
+    },
+    "category": "login_count",
+    "rationale": "Login events are distinct from customer counts; apply active status at the snapshot."
+  },
+  {
+    "id": "holdout_023",
+    "question": "Give October sign-in totals for Canadian Team accounts with a country breakdown.",
+    "expected": {
+      "metric": "login_count",
+      "filter": null,
+      "period": "2026-10",
+      "group_by": "country",
+      "plan": "Team",
+      "country": "CA"
+    },
+    "category": "login_count",
+    "rationale": "Count login events within the named month, capped at reference_date."
+  },
+  {
+    "id": "holdout_024",
+    "question": "Split last year's successful logins from Australian customers churned at year end by plan.",
+    "expected": {
+      "metric": "login_count",
+      "filter": "churned",
+      "period": "last_year",
+      "group_by": "plan",
+      "plan": null,
+      "country": "AU"
+    },
+    "category": "login_count",
+    "rationale": "Count events within last_year for the churned year-end cohort."
+  },
+  {
+    "id": "holdout_025",
+    "question": "How much revenue have our Canadian customers generated recently?",
+    "expected": {
+      "error": "needs_clarification"
+    },
+    "category": "needs_clarification",
+    "rationale": "Recently has no defined period; the explicitly ambiguous period cannot use the omitted-period default."
+  },
+  {
+    "id": "holdout_026",
+    "question": "Show this month's results for Team customers in Germany.",
+    "expected": {
+      "error": "needs_clarification"
+    },
+    "category": "needs_clarification",
+    "rationale": "Results does not specify a supported metric."
+  },
+  {
+    "id": "holdout_027",
+    "question": "Which country performed best last quarter?",
+    "expected": {
+      "error": "needs_clarification"
+    },
+    "category": "needs_clarification",
+    "rationale": "Best is undefined and no metric is specified."
+  },
+  {
+    "id": "holdout_028",
+    "question": "Show net revenue from British customers over the last 45 days.",
+    "expected": {
+      "error": "unsupported"
+    },
+    "category": "unsupported",
+    "rationale": "Rolling periods are outside the contract."
+  },
+  {
+    "id": "holdout_029",
+    "question": "For Germany last quarter, give both customer headcount and net revenue.",
+    "expected": {
+      "error": "unsupported"
+    },
+    "category": "unsupported",
+    "rationale": "Multiple metrics in one request are outside the contract."
+  },
+  {
+    "id": "holdout_030",
+    "question": "Count Business customers in Spain today.",
+    "expected": {
+      "error": "unsupported"
+    },
+    "category": "unsupported",
+    "rationale": "Spain is not a supported market."
+  }
+]
