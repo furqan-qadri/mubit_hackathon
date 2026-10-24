@@ -7,13 +7,14 @@ import { assertTaskLock, MODEL, TASK_SIGNATURE } from "./dialect/task.mjs";
 assertTaskLock();
 const { values } = parseArgs({
   options: {
+    source: { type: "string", default: "questions/review-001.json" },
     from: { type: "string" },
     count: { type: "string" },
     "dry-run": { type: "boolean", default: false },
   },
   allowPositionals: false,
 });
-const source = "questions/review-001.json";
+const source = values.source;
 const questions = JSON.parse(readFileSync(new URL(`./${source}`, import.meta.url), "utf8"));
 const start = questions.findIndex(question => question.id === values.from);
 const count = Number(values.count);
@@ -52,7 +53,7 @@ console.log(JSON.stringify({
 if (!values["dry-run"]) {
   let saved = 0;
   for (const question of pending) {
-    const child = spawnSync(process.execPath, [fileURLToPath(new URL("./index.mjs", import.meta.url)), question.id], {
+    const child = spawnSync(process.execPath, [fileURLToPath(new URL("./index.mjs", import.meta.url)), "--source", source, question.id], {
       cwd: fileURLToPath(new URL("./", import.meta.url)),
       encoding: "utf8",
       timeout: 75_000,

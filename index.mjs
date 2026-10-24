@@ -2,6 +2,7 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { loadEnvFile } from "node:process";
 import { randomUUID } from "node:crypto";
 import { fileURLToPath } from "node:url";
+import { parseArgs } from "node:util";
 import OpenAI from "openai";
 import {
   assertTaskLock,
@@ -28,11 +29,17 @@ const client = new OpenAI({
   timeout: 60_000,
 });
 
-const questionsSource = "questions/review-001.json";
+const { values, positionals } = parseArgs({
+  options: {
+    source: { type: "string", default: "questions/review-001.json" },
+  },
+  allowPositionals: true,
+});
+const questionsSource = values.source;
 const questions = JSON.parse(
   readFileSync(new URL(`./${questionsSource}`, import.meta.url), "utf8"),
 );
-const selection = process.argv.slice(2).join(" ").trim();
+const selection = positionals.join(" ").trim();
 const selected = selection
   ? questions.find(item => item.id === selection || item.question === selection)
   : questions[0];
