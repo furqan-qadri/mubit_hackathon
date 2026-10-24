@@ -1,0 +1,92 @@
+[
+  {
+    "question": "How many customers are still paying us?",
+    "expected": { "metric": "count_customers", "filter": "active", "period": "today", "group_by": null, "plan": null, "country": null },
+    "rule": "Still paying means active; customer counts default to today."
+  },
+  {
+    "question": "Active users on the Team plan?",
+    "expected": { "metric": "count_customers", "filter": "active", "period": "today", "group_by": null, "plan": "Team", "country": null },
+    "rule": "Active users means paying customers, never login events."
+  },
+  {
+    "question": "Who dropped off last quarter, split by plan?",
+    "expected": { "metric": "count_customers", "filter": "churned", "period": "last_quarter", "group_by": "plan", "plan": null, "country": null },
+    "rule": "Count the churned cohort at the quarter-end snapshot, not churn events."
+  },
+  {
+    "question": "How many people are still on free trial?",
+    "expected": { "metric": "count_customers", "filter": "trial", "period": "today", "group_by": null, "plan": null, "country": null },
+    "rule": "Free trial means never paid."
+  },
+  {
+    "question": "Revenue by country this year",
+    "expected": { "metric": "net_revenue", "filter": null, "period": "this_year", "group_by": "country", "plan": null, "country": null },
+    "rule": "Unqualified revenue means net revenue."
+  },
+  {
+    "question": "What did we actually make in March after refunds?",
+    "expected": { "metric": "net_revenue", "filter": null, "period": "2026-03", "group_by": null, "plan": null, "country": null },
+    "rule": "A named month without a year uses the fixed reference year."
+  },
+  {
+    "question": "Revenue before refunds?",
+    "expected": { "metric": "gross_revenue", "filter": null, "period": "this_month", "group_by": null, "plan": null, "country": null },
+    "rule": "Before refunds overrides the net-revenue default; monetary metrics default to this_month."
+  },
+  {
+    "question": "Money returned to UK customers last month",
+    "expected": { "metric": "refund_amount", "filter": null, "period": "last_month", "group_by": null, "plan": null, "country": "GB" },
+    "rule": "Money returned is refund amount; UK maps to GB."
+  },
+  {
+    "question": "How many sign-ins from trial users this week?",
+    "expected": { "metric": "login_count", "filter": "trial", "period": "this_week", "group_by": null, "plan": null, "country": null },
+    "rule": "Count login events from the trial cohort at the snapshot."
+  },
+  {
+    "question": "ARPC for Business customers in Germany in Q3",
+    "expected": { "metric": "avg_revenue_per_customer", "filter": null, "period": "2026-Q3", "group_by": null, "plan": "Business", "country": "DE" },
+    "rule": "ARPC uses the company denominator; named Q3 uses the reference year and stays explicit."
+  },
+  {
+    "question": "Revenue by signup cohort last year",
+    "expected": { "metric": "net_revenue", "filter": null, "period": "last_year", "group_by": "signup_month", "plan": null, "country": null },
+    "rule": "Signup cohorts group by signup month, not revenue-event month."
+  },
+  {
+    "question": "How many customers did we have?",
+    "expected": { "metric": "count_customers", "filter": null, "period": "today", "group_by": null, "plan": null, "country": null },
+    "rule": "Unfiltered counts include trials; an omitted period uses the explicit default."
+  },
+  {
+    "question": "How are we doing lately?",
+    "expected": { "error": "needs_clarification" },
+    "rule": "Neither the metric nor lately has a defined interpretation."
+  },
+  {
+    "question": "How many distinct customers logged in this month?",
+    "expected": { "error": "unsupported" },
+    "rule": "The schema supports login events, not distinct logged-in customers."
+  },
+  {
+    "question": "Revenue for the last 30 days",
+    "expected": { "error": "unsupported" },
+    "rule": "Rolling periods are unsupported; do not silently substitute this_month."
+  },
+  {
+    "question": "Revenue in November 2026",
+    "expected": { "error": "unsupported" },
+    "rule": "The requested period is wholly after the fixed reference date."
+  },
+  {
+    "question": "What is our churn rate?",
+    "expected": { "error": "unsupported" },
+    "rule": "A churn rate cannot be represented by a churned customer count."
+  },
+  {
+    "question": "Revenue by plan and country",
+    "expected": { "error": "unsupported" },
+    "rule": "Only one grouping is supported."
+  }
+]
