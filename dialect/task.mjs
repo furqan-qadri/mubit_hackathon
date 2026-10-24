@@ -38,7 +38,7 @@ export const REQUEST_SETTINGS = deepFreeze({
 });
 
 export const TASK_SIGNATURE = deepFreeze({
-  version: 2,
+  version: 3,
   company: COMPANY.id,
   company_sha256: sha256(JSON.stringify(COMPANY)),
   system_prompt_sha256: sha256(SYSTEM_PROMPT),

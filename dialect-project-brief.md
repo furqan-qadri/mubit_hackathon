@@ -79,12 +79,12 @@ resp = client.chat.completions.create(
         {"role": "system", "content": SYSTEM_PROMPT},   # FIXED, never changes
         {"role": "user", "content": question},
     ],
-    metadata={"session_id": question_id},         # unique per question
-    store=True,                                 # required by the gateway when using metadata
+    # On starter credit, omit metadata and store. Mubit derives a session
+    # from the fixed instructions and first user message.
 )
 ```
 - Other base URLs: Anthropic `https://api.mubit.ai/anthropic` (no /v1), Gemini `https://api.mubit.ai/gemini`, OpenAI-compatible `https://api.mubit.ai/compat/{openrouter|groq|together|mistral}/v1`.
-- **Sessions:** Mubit sets test cases aside **by session**. Give every question its own `metadata.session_id` (OpenAI) so test cases are varied and calls can be found in the console.
+- **Sessions:** Mubit sets test cases aside **by session**. Without explicit metadata, it derives the session from the instructions and first user message, so distinct questions get distinct sessions. Observed starter-credit constraint: explicit metadata requires `store: true`, but starter credit rejects storage. Therefore the current runner omits both and uses automatic sessions. With your own provider key configured in Mubit, explicit `metadata.session_id` can be used if storage is enabled. Use question text to find starter-credit calls; a locally generated request ID is not the console session ID.
 - **Recording headers** (not forwarded to provider):
   - `x-middleware-store: false` → keep a record without request/answer.
   - `x-middleware-record: full | metadata | off` → `off` also drops the task fingerprint. **Calls recorded without request and reply never become kept examples.**
@@ -144,7 +144,7 @@ In production there are no gold answers, so the checker is our **evaluation harn
 
 We **create our own labelled question–spec pairs**. No public dataset matches a company-specific glossary. Start with correct specs, generate questions from them, and review that each question preserves its label's meaning. No customer records, payments or database are needed for training or spec-level evaluation.
 
-### 5.1 Company definitions first: "Acme Subscriptions"
+### 5.1 Company definitions first: "Canary Labs"
 Define the company's metrics, customer segments, time periods, defaults and exceptions. These definitions are the source of truth for both the fixed system prompt and the labelled evaluation questions. Resolve ambiguities before generating training traffic—for example, whether never-paid trials can count as churned, which period an omitted date means, and how historical customer status is evaluated.
 
 **Deferred:** connect a real company database, add a deterministic spec-to-SQL compiler, and display query results. Do not build or populate a synthetic database for the core learning and evaluation loop.
@@ -182,11 +182,11 @@ Alternatively, return exactly `{"error":"needs_clarification"}` for unresolved a
 Comparison rule: validate against the schema first, then ignore key order and compare exactly. Required null fields may not be omitted. Keep relative periods relative; named months and quarters use explicit `YYYY-MM` / `YYYY-Qn` tokens.
 
 ### 5.4 System prompt (LOCK IT)
-Implemented in [`dialect/task.mjs`](dialect/task.mjs): fixed role + reference date + company rules + output instructions + JSON schema. The chosen Mubit teacher is `gpt-6-sol`, with JSON-object output mode, medium reasoning effort and a 2,048 completion-token budget. The teacher was changed from `gpt-4.1-mini` before the first Dialect call through Mubit; company definitions, prompt and schema are unchanged. JSON mode ensures JSON syntax; local schema validation belongs in the checker in the next phase. No worked examples are embedded in this version.
+Implemented in [`dialect/task.mjs`](dialect/task.mjs): fixed role + reference date + company rules + output instructions + JSON schema. The example company is **Canary Labs**; the product is **Dialect**. The chosen Mubit teacher is `gpt-6-sol`, with JSON-object output mode, medium reasoning effort and a 2,048 completion-token budget. Existing direct OpenAI baseline logs predate the company rename and retain their original prompt fingerprints. The company rename updates the prompt and task lock; business rules and the output schema are unchanged. JSON mode ensures JSON syntax; local schema validation belongs in the checker in the next phase. No worked examples are embedded in this version.
 
 [`dialect/task-lock.json`](dialect/task-lock.json) records hashes for the company definitions, prompt and schema, plus the model and output format. `index.mjs` verifies the lock before any API call. **Once training traffic starts, never edit the task**, since wording or configuration changes can create a new task and restart collection. Deliberate changes require a new task version and evaluation baseline.
 
-Run one question with `npm start -- "Revenue by country this year"`; `npm start` alone sends only the first pilot question. Every question gets its own session ID and a request/response log in `dialect/results/`. Direct OpenAI baseline runs are recorded separately. Check the Mubit logs and console for actual training traffic.
+Run one question with `npm start -- "Revenue by country this year"`; `npm start` alone sends only the first pilot question. The starter-credit runner uses automatic Mubit sessions and saves its local request ID, Mubit request ID when available, and request/response in `dialect/results/`. Direct OpenAI baseline runs are recorded separately. Check the Mubit logs and console for actual training traffic.
 
 ### 5.5 Example question–answer pairs
 [`dialect/contract-examples.json`](dialect/contract-examples.json) contains 18 handwritten examples with complete labels and rule explanations, including ambiguity and unsupported requests. These are contract examples, not the held-out evaluation set. The table below abbreviates null fields for readability; actual outputs must include them and the required period.

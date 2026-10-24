@@ -1,8 +1,8 @@
 {
-  "version": 2,
-  "company": "acme-subscriptions-v1",
-  "company_sha256": "4ed0fb1f38d4a26e5f0ebacfa548516195ade6573746d603ebfb3423285cc6aa",
-  "system_prompt_sha256": "cf0c1cfbc7fb46901b55d4e4ed9d585e289a2b25b69a8679e65353416a0dc037",
+  "version": 3,
+  "company": "canary-labs-v1",
+  "company_sha256": "1d1a944614d8d316193adea60c246add6f7897ce6d951ca3a4ca32c91599caae",
+  "system_prompt_sha256": "209bcb78d616c3f29e0576c897cd6b24a35dd28e9655eb41ca4dda56e0608676",
   "schema_sha256": "97f1c8b963ba34b125825059c5f9c38ee76d953231d7c75aac2d13f9b1824b8e",
   "model": "gpt-6-sol",
   "response_format": {

@@ -1,0 +1,112 @@
+[
+  {
+    "id": "q_001",
+    "question": "As of today, how many paying customers are on Business, split by country?",
+    "expected": {
+      "metric": "count_customers",
+      "filter": "active",
+      "period": "today",
+      "group_by": "country",
+      "plan": "Business",
+      "country": null
+    }
+  },
+  {
+    "id": "q_002",
+    "question": "How many churned Starter accounts did we have in the US at the end of last month?",
+    "expected": {
+      "metric": "count_customers",
+      "filter": "churned",
+      "period": "last_month",
+      "group_by": null,
+      "plan": "Starter",
+      "country": "US"
+    }
+  },
+  {
+    "id": "q_003",
+    "question": "At the end of Q2, how many free trial accounts did we have, grouped by signup month?",
+    "expected": {
+      "metric": "count_customers",
+      "filter": "trial",
+      "period": "2026-Q2",
+      "group_by": "signup_month",
+      "plan": null,
+      "country": null
+    }
+  },
+  {
+    "id": "q_004",
+    "question": "What have we made after refunds from Team customers in France this quarter?",
+    "expected": {
+      "metric": "net_revenue",
+      "filter": null,
+      "period": "this_quarter",
+      "group_by": null,
+      "plan": "Team",
+      "country": "FR"
+    }
+  },
+  {
+    "id": "q_005",
+    "question": "Show this year's revenue before refunds, broken down by plan.",
+    "expected": {
+      "metric": "gross_revenue",
+      "filter": null,
+      "period": "this_year",
+      "group_by": "plan",
+      "plan": null,
+      "country": null
+    }
+  },
+  {
+    "id": "q_006",
+    "question": "How much did we refund to customers in Australia in August?",
+    "expected": {
+      "metric": "refund_amount",
+      "filter": null,
+      "period": "2026-08",
+      "group_by": null,
+      "plan": null,
+      "country": "AU"
+    }
+  },
+  {
+    "id": "q_007",
+    "question": "What's our average revenue per customer, split by country?",
+    "expected": {
+      "metric": "avg_revenue_per_customer",
+      "filter": null,
+      "period": "this_month",
+      "group_by": "country",
+      "plan": null,
+      "country": null
+    }
+  },
+  {
+    "id": "q_008",
+    "question": "How many login events came from Business customers in Canada last week?",
+    "expected": {
+      "metric": "login_count",
+      "filter": null,
+      "period": "last_week",
+      "group_by": null,
+      "plan": "Business",
+      "country": "CA"
+    }
+  },
+  {
+    "id": "q_009",
+    "question": "Which plan is doing best?",
+    "expected": {
+      "error": "needs_clarification"
+    }
+  },
+  {
+    "id": "q_010",
+    "question": "What's our revenue growth from last month to this month?",
+    "expected": {
+      "error": "unsupported"
+    }
+  }
+]

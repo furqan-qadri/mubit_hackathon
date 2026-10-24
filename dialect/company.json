@@ -1,6 +1,6 @@
 {
-  "id": "acme-subscriptions-v1",
-  "name": "Acme Subscriptions",
+  "id": "canary-labs-v1",
+  "name": "Canary Labs",
   "reference_date": "2026-10-24",
   "timezone": "UTC",
   "currency": "GBP",

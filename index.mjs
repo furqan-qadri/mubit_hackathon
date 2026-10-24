@@ -33,14 +33,13 @@ const pilotQuestions = JSON.parse(
 );
 const question = process.argv.slice(2).join(" ").trim() || pilotQuestions[0].question;
 const questionId = pilotQuestions.find(item => item.question === question)?.id ?? "manual";
-const sessionId = `dialect-${questionId}-${randomUUID()}`;
+const localRequestId = `dialect-${questionId}-${randomUUID()}`;
 const request = {
   model: MODEL,
   ...REQUEST_SETTINGS,
   response_format: RESPONSE_FORMAT,
-  // The gateway requires storage when attaching the session metadata.
-  store: true,
-  metadata: { session_id: sessionId },
+  // On starter credit, omit provider storage and metadata. Mubit derives a
+  // session from the fixed instructions and this question automatically.
   messages: [
     {
       role: "system",
@@ -54,11 +53,12 @@ const request = {
 };
 
 const outputDirectory = new URL("./dialect/results/", import.meta.url);
-const outputFile = new URL(`mubit-${sessionId}.json`, outputDirectory);
+const outputFile = new URL(`mubit-${localRequestId}.json`, outputDirectory);
 const report = {
   provider: "mubit",
   base_url: client.baseURL,
-  session_id: sessionId,
+  local_request_id: localRequestId,
+  session_tracking: "Mubit derives the session from the instructions and first user message.",
   question_id: questionId,
   task_signature: TASK_SIGNATURE,
   started_at: new Date().toISOString(),
@@ -69,7 +69,7 @@ mkdirSync(outputDirectory, { recursive: true });
 const save = () => writeFileSync(outputFile, JSON.stringify(report, null, 2) + "\n");
 save();
 console.log(`Sending one question through Mubit (${MODEL}).`);
-console.log(`Session ID: ${sessionId}`);
+console.log(`Local request ID: ${localRequestId}`);
 const start = performance.now();
 try {
   const { data, response } = await client.chat.completions.create(request).withResponse();
@@ -77,6 +77,7 @@ try {
   report.latency_ms = Math.round(performance.now() - start);
   report.mubit_request_id = response.headers.get("x-middleware-request-id");
   report.response = data;
+  console.log(`Mubit request ID: ${report.mubit_request_id ?? "not supplied"}`);
   console.log(data.choices[0]?.message.content ?? "No response content.");
 } catch (error) {
   report.status = "failed";
