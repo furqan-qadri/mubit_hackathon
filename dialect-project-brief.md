@@ -80,6 +80,7 @@ resp = client.chat.completions.create(
         {"role": "user", "content": question},
     ],
     metadata={"session_id": question_id},         # unique per question
+    store=True,                                 # required by the gateway when using metadata
 )
 ```
 - Other base URLs: Anthropic `https://api.mubit.ai/anthropic` (no /v1), Gemini `https://api.mubit.ai/gemini`, OpenAI-compatible `https://api.mubit.ai/compat/{openrouter|groq|together|mistral}/v1`.
@@ -181,11 +182,11 @@ Alternatively, return exactly `{"error":"needs_clarification"}` for unresolved a
 Comparison rule: validate against the schema first, then ignore key order and compare exactly. Required null fields may not be omitted. Keep relative periods relative; named months and quarters use explicit `YYYY-MM` / `YYYY-Qn` tokens.
 
 ### 5.4 System prompt (LOCK IT)
-Implemented in [`dialect/task.mjs`](dialect/task.mjs): fixed role + reference date + company rules + output instructions + JSON schema. The model is `gpt-4.1-mini`, with JSON-object output mode. JSON mode ensures JSON syntax; local schema validation belongs in the checker in the next phase. No worked examples are embedded in this version.
+Implemented in [`dialect/task.mjs`](dialect/task.mjs): fixed role + reference date + company rules + output instructions + JSON schema. The chosen Mubit teacher is `gpt-6-sol`, with JSON-object output mode, medium reasoning effort and a 2,048 completion-token budget. The teacher was changed from `gpt-4.1-mini` before the first Dialect call through Mubit; company definitions, prompt and schema are unchanged. JSON mode ensures JSON syntax; local schema validation belongs in the checker in the next phase. No worked examples are embedded in this version.
 
 [`dialect/task-lock.json`](dialect/task-lock.json) records hashes for the company definitions, prompt and schema, plus the model and output format. `index.mjs` verifies the lock before any API call. **Once training traffic starts, never edit the task**, since wording or configuration changes can create a new task and restart collection. Deliberate changes require a new task version and evaluation baseline.
 
-Run a question with `npm start -- "Revenue by country this year"`. Every question gets its own session ID. No Dialect training calls have been sent as part of this setup.
+Run one question with `npm start -- "Revenue by country this year"`; `npm start` alone sends only the first pilot question. Every question gets its own session ID and a request/response log in `dialect/results/`. Direct OpenAI baseline runs are recorded separately. Check the Mubit logs and console for actual training traffic.
 
 ### 5.5 Example question–answer pairs
 [`dialect/contract-examples.json`](dialect/contract-examples.json) contains 18 handwritten examples with complete labels and rule explanations, including ambiguity and unsupported requests. These are contract examples, not the held-out evaluation set. The table below abbreviates null fields for readability; actual outputs must include them and the required period.

@@ -4,7 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "start": "node index.mjs"
+    "start": "node index.mjs",
+    "test:openai": "node test-openai.mjs"
   },
   "engines": {
     "node": ">=22"

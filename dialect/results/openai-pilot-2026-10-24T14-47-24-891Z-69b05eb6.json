@@ -1,0 +1,432 @@
+{
+  "provider": "openai-direct",
+  "base_url": "https://api.openai.com/v1",
+  "requested_model": "gpt-4.1-mini",
+  "task_signature": {
+    "version": 1,
+    "company": "acme-subscriptions-v1",
+    "company_sha256": "4ed0fb1f38d4a26e5f0ebacfa548516195ade6573746d603ebfb3423285cc6aa",
+    "system_prompt_sha256": "cf0c1cfbc7fb46901b55d4e4ed9d585e289a2b25b69a8679e65353416a0dc037",
+    "schema_sha256": "97f1c8b963ba34b125825059c5f9c38ee76d953231d7c75aac2d13f9b1824b8e",
+    "model": "gpt-4.1-mini",
+    "response_format": {
+      "type": "json_object"
+    },
+    "tools": [],
+    "tool_choice": null
+  },
+  "started_at": "2026-10-24T14:47:24.892Z",
+  "status": "completed",
+  "total_questions": 10,
+  "results": [
+    {
+      "id": "pilot_001",
+      "question": "How many active users do we have in Britain on the Team plan?",
+      "expected": {
+        "metric": "count_customers",
+        "filter": "active",
+        "period": "today",
+        "group_by": null,
+        "plan": "Team",
+        "country": "GB"
+      },
+      "actual": {
+        "metric": "count_customers",
+        "filter": "active",
+        "period": "today",
+        "group_by": null,
+        "plan": "Team",
+        "country": "GB"
+      },
+      "raw_response": "{\"metric\":\"count_customers\",\"filter\":\"active\",\"period\":\"today\",\"group_by\":null,\"plan\":\"Team\",\"country\":\"GB\"}",
+      "json_valid": true,
+      "correct": true,
+      "finish_reason": "stop",
+      "model": "gpt-4.1-mini-2025-04-14",
+      "request_id": "req_427d16336f5b4006ab85d34ae54ecdd4",
+      "latency_ms": 2310,
+      "usage": {
+        "prompt_tokens": 1388,
+        "completion_tokens": 28,
+        "total_tokens": 1416,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      }
+    },
+    {
+      "id": "pilot_002",
+      "question": "At the end of last quarter, how many customers had churned, broken down by plan?",
+      "expected": {
+        "metric": "count_customers",
+        "filter": "churned",
+        "period": "last_quarter",
+        "group_by": "plan",
+        "plan": null,
+        "country": null
+      },
+      "actual": {
+        "metric": "count_customers",
+        "filter": "churned",
+        "period": "2026-07-01",
+        "group_by": "plan",
+        "plan": null,
+        "country": null
+      },
+      "raw_response": "{\"metric\":\"count_customers\",\"filter\":\"churned\",\"period\":\"2026-07-01\",\"group_by\":\"plan\",\"plan\":null,\"country\":null}",
+      "json_valid": true,
+      "correct": false,
+      "finish_reason": "stop",
+      "model": "gpt-4.1-mini-2025-04-14",
+      "request_id": "req_99dedc0e5a454b598f4727f7209803c2",
+      "latency_ms": 1331,
+      "usage": {
+        "prompt_tokens": 1393,
+        "completion_tokens": 35,
+        "total_tokens": 1428,
+        "prompt_tokens_details": {
+          "cached_tokens": 1152,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      }
+    },
+    {
+      "id": "pilot_003",
+      "question": "How many free trial users did we have in Canada at the end of September?",
+      "expected": {
+        "metric": "count_customers",
+        "filter": "trial",
+        "period": "2026-09",
+        "group_by": null,
+        "plan": null,
+        "country": "CA"
+      },
+      "actual": {
+        "metric": "count_customers",
+        "filter": "trial",
+        "period": "2026-09",
+        "group_by": null,
+        "plan": null,
+        "country": "CA"
+      },
+      "raw_response": "{\"metric\":\"count_customers\",\"filter\":\"trial\",\"period\":\"2026-09\",\"group_by\":null,\"plan\":null,\"country\":\"CA\"}",
+      "json_valid": true,
+      "correct": true,
+      "finish_reason": "stop",
+      "model": "gpt-4.1-mini-2025-04-14",
+      "request_id": "req_4e7d26db7c6b4c299fe428457273d3e8",
+      "latency_ms": 1255,
+      "usage": {
+        "prompt_tokens": 1390,
+        "completion_tokens": 31,
+        "total_tokens": 1421,
+        "prompt_tokens_details": {
+          "cached_tokens": 1152,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      }
+    },
+    {
+      "id": "pilot_004",
+      "question": "What were sales from Business customers last month, split by country?",
+      "expected": {
+        "metric": "net_revenue",
+        "filter": null,
+        "period": "last_month",
+        "group_by": "country",
+        "plan": "Business",
+        "country": null
+      },
+      "actual": {
+        "error": "unsupported"
+      },
+      "raw_response": "{\"error\":\"unsupported\"}",
+      "json_valid": true,
+      "correct": false,
+      "finish_reason": "stop",
+      "model": "gpt-4.1-mini-2025-04-14",
+      "request_id": "req_874bd81165f64296a7818726bf9d8e24",
+      "latency_ms": 1119,
+      "usage": {
+        "prompt_tokens": 1387,
+        "completion_tokens": 5,
+        "total_tokens": 1392,
+        "prompt_tokens_details": {
+          "cached_tokens": 1152,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      }
+    },
+    {
+      "id": "pilot_005",
+      "question": "What did we bring in before refunds in March?",
+      "expected": {
+        "metric": "gross_revenue",
+        "filter": null,
+        "period": "2026-03",
+        "group_by": null,
+        "plan": null,
+        "country": null
+      },
+      "actual": {
+        "metric": "gross_revenue",
+        "filter": null,
+        "period": "2026-03",
+        "group_by": null,
+        "plan": null,
+        "country": null
+      },
+      "raw_response": "{\"metric\":\"gross_revenue\",\"filter\":null,\"period\":\"2026-03\",\"group_by\":null,\"plan\":null,\"country\":null}",
+      "json_valid": true,
+      "correct": true,
+      "finish_reason": "stop",
+      "model": "gpt-4.1-mini-2025-04-14",
+      "request_id": "req_a432138d9bb64f21b01a64d6b5fe321e",
+      "latency_ms": 841,
+      "usage": {
+        "prompt_tokens": 1384,
+        "completion_tokens": 31,
+        "total_tokens": 1415,
+        "prompt_tokens_details": {
+          "cached_tokens": 1152,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      }
+    },
+    {
+      "id": "pilot_006",
+      "question": "How much money did we return to customers in America this year?",
+      "expected": {
+        "metric": "refund_amount",
+        "filter": null,
+        "period": "this_year",
+        "group_by": null,
+        "plan": null,
+        "country": "US"
+      },
+      "actual": {
+        "metric": "refund_amount",
+        "filter": null,
+        "period": "this_year",
+        "group_by": null,
+        "plan": null,
+        "country": "US"
+      },
+      "raw_response": "{\"metric\":\"refund_amount\",\"filter\":null,\"period\":\"this_year\",\"group_by\":null,\"plan\":null,\"country\":\"US\"}",
+      "json_valid": true,
+      "correct": true,
+      "finish_reason": "stop",
+      "model": "gpt-4.1-mini-2025-04-14",
+      "request_id": "req_9f41c3fb01a14c57989fa686b8922906",
+      "latency_ms": 790,
+      "usage": {
+        "prompt_tokens": 1387,
+        "completion_tokens": 28,
+        "total_tokens": 1415,
+        "prompt_tokens_details": {
+          "cached_tokens": 1152,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      }
+    },
+    {
+      "id": "pilot_007",
+      "question": "What was ARPC for the Team plan in Q2?",
+      "expected": {
+        "metric": "avg_revenue_per_customer",
+        "filter": null,
+        "period": "2026-Q2",
+        "group_by": null,
+        "plan": "Team",
+        "country": null
+      },
+      "actual": {
+        "metric": "avg_revenue_per_customer",
+        "filter": null,
+        "period": "2026-Q2",
+        "group_by": null,
+        "plan": "Team",
+        "country": null
+      },
+      "raw_response": "{\"metric\":\"avg_revenue_per_customer\",\"filter\":null,\"period\":\"2026-Q2\",\"group_by\":null,\"plan\":\"Team\",\"country\":null}",
+      "json_valid": true,
+      "correct": true,
+      "finish_reason": "stop",
+      "model": "gpt-4.1-mini-2025-04-14",
+      "request_id": "req_c82fcea1c2f34c9c89ade95e9723082c",
+      "latency_ms": 841,
+      "usage": {
+        "prompt_tokens": 1386,
+        "completion_tokens": 33,
+        "total_tokens": 1419,
+        "prompt_tokens_details": {
+          "cached_tokens": 1152,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      }
+    },
+    {
+      "id": "pilot_008",
+      "question": "How many sign-ins have trial users made this month, grouped by their signup month?",
+      "expected": {
+        "metric": "login_count",
+        "filter": "trial",
+        "period": "this_month",
+        "group_by": "signup_month",
+        "plan": null,
+        "country": null
+      },
+      "actual": {
+        "metric": "login_count",
+        "filter": "trial",
+        "period": "this_month",
+        "group_by": "signup_month",
+        "plan": null,
+        "country": null
+      },
+      "raw_response": "{\"metric\":\"login_count\",\"filter\":\"trial\",\"period\":\"this_month\",\"group_by\":\"signup_month\",\"plan\":null,\"country\":null}",
+      "json_valid": true,
+      "correct": true,
+      "finish_reason": "stop",
+      "model": "gpt-4.1-mini-2025-04-14",
+      "request_id": "req_c1ab61399e0f414b818a584956355ba0",
+      "latency_ms": 1350,
+      "usage": {
+        "prompt_tokens": 1391,
+        "completion_tokens": 29,
+        "total_tokens": 1420,
+        "prompt_tokens_details": {
+          "cached_tokens": 1152,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      }
+    },
+    {
+      "id": "pilot_009",
+      "question": "How much revenue have we made lately?",
+      "expected": {
+        "error": "needs_clarification"
+      },
+      "actual": {
+        "error": "needs_clarification"
+      },
+      "raw_response": "{\"error\":\"needs_clarification\"}",
+      "json_valid": true,
+      "correct": true,
+      "finish_reason": "stop",
+      "model": "gpt-4.1-mini-2025-04-14",
+      "request_id": "req_bbe8afbbecb24d14bccaae01852d9d02",
+      "latency_ms": 500,
+      "usage": {
+        "prompt_tokens": 1382,
+        "completion_tokens": 8,
+        "total_tokens": 1390,
+        "prompt_tokens_details": {
+          "cached_tokens": 1152,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      }
+    },
+    {
+      "id": "pilot_010",
+      "question": "How many different customers logged in this month?",
+      "expected": {
+        "error": "unsupported"
+      },
+      "actual": {
+        "metric": "login_count",
+        "filter": null,
+        "period": "this_month",
+        "group_by": null,
+        "plan": null,
+        "country": null
+      },
+      "raw_response": "{\"metric\":\"login_count\",\"filter\":null,\"period\":\"this_month\",\"group_by\":null,\"plan\":null,\"country\":null}",
+      "json_valid": true,
+      "correct": false,
+      "finish_reason": "stop",
+      "model": "gpt-4.1-mini-2025-04-14",
+      "request_id": "req_c1f7503e1b0f4725b0cd04d0371b5201",
+      "latency_ms": 1124,
+      "usage": {
+        "prompt_tokens": 1383,
+        "completion_tokens": 28,
+        "total_tokens": 1411,
+        "prompt_tokens_details": {
+          "cached_tokens": 1152,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      }
+    }
+  ],
+  "finished_at": "2026-10-24T14:47:36.364Z",
+  "summary": {
+    "answered": 10,
+    "correct": 7,
+    "accuracy": 0.7,
+    "average_latency_ms": 1146,
+    "prompt_tokens": 13871,
+    "completion_tokens": 256
+  }
+}

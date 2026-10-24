@@ -1,0 +1,36 @@
+{
+  "provider": "openai-direct",
+  "base_url": "https://api.openai.com/v1",
+  "requested_model": "gpt-4.1-mini",
+  "task_signature": {
+    "version": 1,
+    "company": "acme-subscriptions-v1",
+    "company_sha256": "4ed0fb1f38d4a26e5f0ebacfa548516195ade6573746d603ebfb3423285cc6aa",
+    "system_prompt_sha256": "cf0c1cfbc7fb46901b55d4e4ed9d585e289a2b25b69a8679e65353416a0dc037",
+    "schema_sha256": "97f1c8b963ba34b125825059c5f9c38ee76d953231d7c75aac2d13f9b1824b8e",
+    "model": "gpt-4.1-mini",
+    "response_format": {
+      "type": "json_object"
+    },
+    "tools": [],
+    "tool_choice": null
+  },
+  "started_at": "2026-10-24T14:47:10.987Z",
+  "status": "failed",
+  "total_questions": 10,
+  "results": [],
+  "error": {
+    "name": "Error",
+    "http_status": null,
+    "code": null
+  },
+  "finished_at": "2026-10-24T14:47:11.023Z",
+  "summary": {
+    "answered": 0,
+    "correct": 0,
+    "accuracy": null,
+    "average_latency_ms": null,
+    "prompt_tokens": 0,
+    "completion_tokens": 0
+  }
+}

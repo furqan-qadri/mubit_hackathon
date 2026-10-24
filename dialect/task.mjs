@@ -30,17 +30,22 @@ export const SYSTEM_PROMPT = [
 
 // JSON mode supports both query and error objects. The checker will validate
 // against QUERY_SPEC_SCHEMA; JSON mode alone does not enforce that schema.
-export const MODEL = "gpt-4.1-mini";
+export const MODEL = "gpt-6-sol";
 export const RESPONSE_FORMAT = deepFreeze({ type: "json_object" });
+export const REQUEST_SETTINGS = deepFreeze({
+  max_completion_tokens: 2048,
+  reasoning_effort: "medium",
+});
 
 export const TASK_SIGNATURE = deepFreeze({
-  version: 1,
+  version: 2,
   company: COMPANY.id,
   company_sha256: sha256(JSON.stringify(COMPANY)),
   system_prompt_sha256: sha256(SYSTEM_PROMPT),
   schema_sha256: sha256(JSON.stringify(QUERY_SPEC_SCHEMA)),
   model: MODEL,
   response_format: RESPONSE_FORMAT,
+  request_settings: REQUEST_SETTINGS,
   tools: [],
   tool_choice: null,
 });
