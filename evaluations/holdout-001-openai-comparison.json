@@ -1,0 +1,97 @@
+{
+  "evaluated_at": "2026-10-24T23:08:52.697510+00:00",
+  "questions_source": "questions/holdout-001.json",
+  "questions_sha256": "e6db451776d087448ea0de20d201094fc25246bcffab34002efdf55cb9d253a0",
+  "schema_source": "dialect/query-spec.schema.json",
+  "schema_sha256": "a96af2a1869ebe94d9a2301d392a39281efdbe595cba7afe224644dfd4ed602d",
+  "total_questions": 30,
+  "method": "Require completed, untruncated responses; parse JSON; validate Draft 2020-12 schema; compare exact objects ignoring key order. Required nulls and period tokens must match; no date normalization.",
+  "models": {
+    "gpt-6-sol": {
+      "source_log": "dialect/results/openai-questions-gpt-6-sol-2026-10-24T22-56-02-066Z-7d9ed440.json",
+      "source_sha256": "f4880027665edb77d289539a9657fdc0132f259871aa9b3dbe238f17bcb05ce9",
+      "completed": 30,
+      "json_valid": 30,
+      "schema_valid": 30,
+      "correct": 30,
+      "incorrect": 0,
+      "exact_match_accuracy_pct": 100.0,
+      "average_latency_ms": 1436,
+      "failures": []
+    },
+    "gpt-4.1-mini": {
+      "source_log": "dialect/results/openai-questions-gpt-4.1-mini-2026-10-24T23-07-00-120Z-0d31d087.json",
+      "source_sha256": "a570dd5ba5cec27f371f9483c40e2d61d93481c6f2424062da84096d162d5d26",
+      "completed": 30,
+      "json_valid": 30,
+      "schema_valid": 28,
+      "correct": 22,
+      "incorrect": 8,
+      "exact_match_accuracy_pct": 73.33,
+      "average_latency_ms": 606,
+      "failures": [
+        {
+          "id": "holdout_003",
+          "differences": {
+            "period": {
+              "expected": "2026-Q3",
+              "actual": "2026-09-30"
+            }
+          },
+          "schema_valid": false
+        },
+        {
+          "id": "holdout_004",
+          "differences": {
+            "period": {
+              "expected": "last_year",
+              "actual": "2025-12-31"
+            }
+          },
+          "schema_valid": false
+        },
+        {
+          "id": "holdout_006",
+          "issue": "Rejected supported query as unsupported.",
+          "schema_valid": true
+        },
+        {
+          "id": "holdout_018",
+          "differences": {
+            "period": {
+              "expected": "last_month",
+              "actual": "2026-09"
+            }
+          },
+          "schema_valid": true
+        },
+        {
+          "id": "holdout_021",
+          "issue": "Rejected supported query as unsupported.",
+          "schema_valid": true
+        },
+        {
+          "id": "holdout_023",
+          "issue": "Rejected supported query as unsupported.",
+          "schema_valid": true
+        },
+        {
+          "id": "holdout_025",
+          "issue": "Expected needs_clarification; returned a query.",
+          "schema_valid": true
+        },
+        {
+          "id": "holdout_026",
+          "issue": "Expected needs_clarification; returned a query.",
+          "schema_valid": true
+        }
+      ]
+    }
+  },
+  "model_agreement": {
+    "matching_answers": 22,
+    "total": 30,
+    "pct": 73.33
+  },
+  "scope": "Scores on this fixed 30-question holdout; no adapter evaluated and no additional model calls made."
+}
