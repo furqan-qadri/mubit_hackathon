@@ -1,0 +1,62 @@
+{
+  "provider": "mubit",
+  "base_url": "https://api.mubit.ai/openai/v1",
+  "local_request_id": "product-summary-summary_001-f94164a0-4bab-407a-8b47-556d1e329d31",
+  "question_id": "summary_001",
+  "started_at": "2026-10-24T17:27:20.092Z",
+  "status": "completed",
+  "request": {
+    "model": "gpt-6-sol",
+    "max_completion_tokens": 2048,
+    "reasoning_effort": "medium",
+    "messages": [
+      {
+        "role": "system",
+        "content": "Explain products clearly and concisely using only the supplied information."
+      },
+      {
+        "role": "user",
+        "content": "Summarize Mubit in two sentences for a developer.\n\nMubit calibrates agentic runtimes using execution traces and verified outcomes.\nPoint your model calls at Mubit. It calibrates every call at runtime, then builds and refreshes a dedicated model for each task your agents repeat, switching over only when it does better. Your frontier models stay. You own what's built.\nIt connects reusable memory, prompt and skill improvements, and task-specific model behavior in a learning loop around your existing agent workflow."
+      }
+    ]
+  },
+  "mubit_request_id": "mreq_01a16ef3e57174e0be3aab97f9e2e7cd",
+  "response": {
+    "id": "chatcmpl-EcZoWdOyREbOGQVzTauYj0mQ1KIHZ",
+    "object": "chat.completion",
+    "created": 1792862840,
+    "model": "gpt-6-sol",
+    "choices": [
+      {
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "Mubit calibrates model calls in your existing agent workflow using execution traces and verified outcomes, then uses what it learns to improve memory, prompts, and skills. For repeated tasks, it builds and refreshes dedicated models, switching to them only when they outperform your existing frontier models; you own what’s built.",
+          "refusal": null,
+          "annotations": []
+        },
+        "finish_reason": "stop"
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 124,
+      "completion_tokens": 157,
+      "total_tokens": 281,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 86,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "service_tier": "default",
+    "system_fingerprint": null
+  },
+  "latency_ms": 2523,
+  "finished_at": "2026-10-24T17:27:22.621Z"
+}

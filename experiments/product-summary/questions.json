@@ -1,0 +1,22 @@
+[
+  {
+    "id": "summary_001",
+    "question": "Summarize Mubit in two sentences for a developer."
+  },
+  {
+    "id": "summary_002",
+    "question": "Explain Mubit in two sentences for an engineer building agents, focusing on how it fits their existing workflow."
+  },
+  {
+    "id": "summary_003",
+    "question": "Describe Mubit in two sentences for a technical founder, focusing on what it learns from and what the team retains control of."
+  },
+  {
+    "id": "summary_004",
+    "question": "Explain in two sentences how Mubit improves repeated agent tasks and when it switches to a dedicated model."
+  },
+  {
+    "id": "summary_005",
+    "question": "Write a two-sentence introduction to Mubit for a platform engineer, covering runtime calibration and its learning loop."
+  }
+]
