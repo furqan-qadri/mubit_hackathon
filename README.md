@@ -116,21 +116,27 @@ The 25 questions form a curated diagnostic set selected using observed model res
 | [Adapter evaluation](evaluations/adapter-025-evaluation.json) | Adapter score, failure analysis and latency context. |
 | [Submitted adapter answers](questions/adapter_answer.md) | The manually collected responses. |
 
-<details>
-<summary>Training evidence: successful v1 run and collected examples</summary>
+### Training and evaluation screenshots
+
+**Task overview:** Mubit groups the analytics calls into one task and shows v1 running in a 10% silent test.
+
+![Mubit task overview showing the analytics task, kept examples and silent-test history](screenshots/Screenshot%202026-10-25%20at%2001.07.02.jpg)
+
+**Successful training:** Mubit marks the v1 training run as passed.
 
 ![Mubit confirms that adapter v1 training passed](screenshots/Screenshot%202026-10-25%20at%2001.30.04.jpg)
 
+**Learning pipeline:** 160 task calls and 68 kept examples, with v1 in silent testing.
+
 ![Mubit task traffic: 160 calls and 68 kept examples](screenshots/Screenshot%202026-10-25%20at%2001.30.29.jpg)
 
-</details>
+**Mubit's internal evaluation:** 92.3% across 13 test cases, separate from our 25-question comparison.
 
-<details>
-<summary>Adapter answering a company analytics question</summary>
+![Mubit evaluation dashboard showing 92.3% quality on 13 test cases](screenshots/Screenshot%202026-10-25%20at%2001.30.14.jpg)
+
+**Adapter in action:** a German churn question becomes a structured query with the requested quarter and plan grouping.
 
 ![Adapter interprets a German churn question with the correct metric, period and plan grouping](screenshots/Screenshot%202026-10-25%20at%2001.02.26.jpg)
-
-</details>
 
 ## Run locally
 
