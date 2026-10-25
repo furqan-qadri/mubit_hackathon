@@ -1,36 +1,41 @@
-# Dialect
+# Project: Dialytics — Analytics, but with company dialect
 
-**Every company speaks its own dialect of its data. Dialect learns yours.**
+**Every company speaks its own dialect of data. Dialytics teaches a lightweight model to understand yours.**
 
-Dialect explores how a company can turn its recurring analytics questions into a specialised model through Mubit. A frontier model first interprets questions using the company's business definitions. Mubit records those calls, selects examples, and trains a task-specific adapter. Written evaluations then measure whether the adapter interprets new questions as accurately as the frontier model.
-
-The goal is frontier-level performance on this company's defined analytics task, with lower cost and latency. Adapter parity and efficiency gains are targets to measure, rather than results already established by this repository.
+- The same analytics question can mean different things at different companies.
+- **Active customer:** one company counts a login in the last week; another requires a payment in the last 30 days.
+- **Churn:** one company counts cancellations; another waits until a customer has gone 60 days without paying.
+- **Revenue:** one team reports gross payments; another subtracts refunds. Both may simply ask, “How much did we make?”
 
 ## The problem
 
-Business questions depend on company-specific meaning. An “active customer” might be someone who paid recently, rather than someone who logged in. “Revenue” might mean revenue after refunds. “Churned” might include cancelled customers and customers who have stopped paying, with precise rules for each.
+- Frontier models do not arrive knowing a company's internal workbooks, metric definitions or reporting conventions.
+- Sometimes the correct interpretation exists only in the evaluator's head. A plausible answer can still mean the wrong thing to that business.
+- Even with written instructions, models can misread defaults, aliases and ambiguous requests. Repeated analytics work needs consistent company-specific interpretation.
 
-A model can produce valid JSON or SQL while misunderstanding those definitions. Dialect makes the company's rules explicit, writes expected answers for representative questions, and uses repeated question-answer traffic to support training and evaluation.
+## The goal
 
-## The example company: Canary Labs
+- Train a **lightweight adapter** that reliably translates business questions into the company's structured analytics language.
+- Use **Mubit** to learn from frontier-model calls, select examples and train a specialised model.
+- Aim for frontier-level accuracy on this recurring task, with fast responses and a smaller model footprint.
 
-Canary Labs is a fictional subscription business with Starter, Team and Business plans. Its definitions live in [`dialect/company.json`](dialect/company.json).
+## Example company: Canary Labs
 
-| Business concept | Canary Labs definition |
+- Our demo uses a fictional subscription business with **Starter, Team and Business** plans.
+- Its [company rules](dialect/company.json) define the meaning of each metric, customer state and reporting period.
+- A fixed reference date of **24 October 2026**, UTC periods and GBP amounts make expected answers reproducible.
+
+| Concept | Canary Labs' dialect |
 | --- | --- |
-| Active customer | Has a qualifying payment on the snapshot date or preceding 29 days, and is not cancelled. Logins do not establish active status. |
-| Churned customer | Previously paid and is either cancelled or at least 60 days past their latest qualifying payment. |
-| Trial customer | Has signed up but has never made a qualifying payment by the snapshot. |
-| Revenue | Defaults to net revenue: qualifying payments minus refunds recorded within the period. |
-| Customer count | A snapshot at the end of the selected period, capped at the reference date. |
+| Active customer | Paid on the snapshot date or preceding 29 days, and is not cancelled. Logins do not count. |
+| Churned customer | Previously paid, then cancelled or went at least 60 days without a qualifying payment. |
+| Trial customer | Signed up but has never made a qualifying payment by the snapshot. |
+| Revenue | Net revenue: qualifying payments minus refunds recorded within the period. |
+| Customer count | A snapshot at the selected period's end, capped at the reference date. |
 
-The reference date is fixed at **24 October 2026**, with UTC calendar periods and GBP amounts, so the same question has a stable expected interpretation.
-
-For example:
+### A sample question
 
 > How many active users do we have in Britain on the Team plan?
-
-Expected interpretation:
 
 ```json
 {
@@ -43,150 +48,115 @@ Expected interpretation:
 }
 ```
 
-This captures three company rules: “active users” means paying customers, Britain maps to `GB`, and a customer count without a date defaults to today.
+- **“Active users”** selects paying customers under Canary's definition.
+- **“Britain”** becomes `GB`; an omitted date for customer counts becomes `today`.
+- The prototype produces a structured query specification. Executing it against a database is the next extension.
 
-The current output is a structured query specification. Database execution, SQL compilation and numerical business results are future extensions.
-
-## How the learning loop works
+## The learning loop
 
 ```mermaid
-flowchart TD
-    A[Company definitions and output contract] --> B[Fixed task prompt]
-    Q[Business questions] --> C[Frontier model through Mubit]
-    B --> C
-    C --> D[Saved responses and execution records]
-    D --> E[Mubit selects kept examples]
-    E --> F[Mubit trains and tests an adapter]
-    F --> G[Compare adapter and frontier on new questions]
-    H[Written expected answers] --> G
-    G --> I[Measure accuracy, agreement, cost and latency]
+flowchart LR
+    A[Company rules + written examples] --> B[Questions to Sol through Mubit]
+    B --> C[Mubit reviews and keeps examples]
+    C --> D[Train adapter]
+    D --> E[Evaluate against written answers]
+    E --> F[Identify errors and refine examples]
+    F --> A
 ```
 
-1. **Define the company's language.** Specify metrics, customer states, date defaults, supported filters and how to handle ambiguity.
-2. **Write questions and expected answers.** Cover normal requests, paraphrases, company-specific meanings and unsupported requests.
-3. **Send questions through Mubit.** The current teacher is `gpt-6-sol`. Each request includes the same company instructions and output contract, plus a different user question.
-4. **Let Mubit collect and train.** Mubit selects kept examples and trains an adapter when the task meets its eligibility requirements. Its documented default first-training threshold is 25 kept examples; submitted calls and kept examples are different counts.
-5. **Compare the trained adapter with the frontier model.** Mubit tests adapter versions against provider answers. Passing versions can be compared in its Try models interface.
-6. **Evaluate both against the written answers.** Determine whether matching the frontier model also preserves the company's intended meaning.
+1. **Define the dialect:** capture business definitions, defaults, filters and ambiguity rules.
+2. **Write the evaluations:** pair questions with expected JSON answers before scoring model outputs.
+3. **Collect teacher responses:** send questions to `gpt-6-sol` through Mubit with a stable task prompt.
+4. **Train with Mubit:** let it review examples and build the task adapter.
+5. **Measure and improve:** compare the adapter with Sol, Luna and Mini; use failures to guide the next iteration.
 
-The runner sends the question and fixed instructions; the local `expected` answer is reserved for evaluation. It does not automatically upload those labels as supervised corrections. Analyst feedback is part of the intended loop, but its effect on Mubit training still needs to be confirmed.
+Expected answers stay outside model requests and are used for scoring. The first training-and-evaluation cycle is complete; a further correction-and-retraining cycle is future work.
 
-See Mubit's [first-adapter guide](https://docs.mubit.ai/guides/first-adapter) for training and comparison, and [task and session rules](https://docs.mubit.ai/guides/tasks-and-sessions) for how calls are grouped.
+## Training and results
 
-## Written evaluations
+### Adapter v1 successfully trained
 
-Dialect includes explicit evaluation cases rather than treating every frontier response as correct.
+- **160 task calls recorded by Mubit**, with **68 examples kept** for its learning pipeline.
+- **Adapter v1 trained successfully** on **Qwen3-4B-Instruct-2507**, a 4B-parameter base model.
+- **92.3% on Mubit's internal test**: 12 of 13 cases passed, compared with 30.8% for the base model plus prompt.
+- The adapter reached **silent testing at 10%** and can answer questions in Mubit's Try models interface.
 
-| Artifact | Contents |
+![Mubit adapter v1: Qwen3 4B, 92.3% quality and silent-test status](screenshots/Screenshot%202026-10-25%20at%2001.29.50.jpg)
+
+### Our 25-question evaluation
+
+**The 4B adapter beats GPT-4.1 Mini by 24 percentage points and finishes just one correct answer behind GPT-6 Luna.**
+
+| Model | Correct / 25 | Exact-match accuracy | Average response latency |
+| --- | ---: | ---: | ---: |
+| GPT-6 Sol | 25 / 25 | 100% | 1,553 ms |
+| GPT-6 Luna | 21 / 25 | 84% | 2,126 ms |
+| **Dialytics adapter v1 · Qwen3 4B** | **20 / 25** | **80%** | **970 ms*** |
+| GPT-4.1 Mini | 14 / 25 | 56% | 635 ms |
+
+- **Strong on supported queries:** 20 of 21 correct (**95.2%**), with valid output structure on all 25 answers.
+- **Close to Luna:** a four-percentage-point gap on this set, using a specialised 4B model.
+- **Reported subsecond average:** 970 ms for the adapter, below the recorded Sol and Luna averages; Mini remains fastest.
+- **Clear next improvement:** four failures guessed an answer instead of asking for clarification; one missed a country filter.
+
+*Adapter latency is a manually reported average. API timings measure complete responses including network time; Sol and Luna used medium reasoning. Runs and timing boundaries differ, so this is an indicative comparison.*
+
+The 25 questions form a curated diagnostic set selected using observed model responses. Scores describe this set; Mubit's separate 13-case test is shown above.
+
+### Written evaluations and evidence
+
+- **Scoring:** parse JSON, validate the schema, then require an exact match to the written expected answer, ignoring key order.
+- **Strict company contract:** required `null` values and period tokens must match; extra fields fail validation.
+- **Shared questions:** all four models are compared against the same 25 expected answers. Adapter responses were collected manually.
+
+| Evidence | What to inspect |
 | --- | --- |
-| [`questions/review-001.json`](questions/review-001.json) | 100 questions, each with an expected JSON answer. |
-| [`questions/review-002.json`](questions/review-002.json) | 100 additional questions with expected answers. |
-| [`dialect/contract-examples.json`](dialect/contract-examples.json) | 18 written examples with expected answers and explanations of the applicable rules. |
-| [`dialect/query-spec.schema.json`](dialect/query-spec.schema.json) | The output contract used to judge structural validity. |
-| [`evaluations/mubit-pilot_001.json`](evaluations/mubit-pilot_001.json) | A recorded pilot evaluation with schema checks and field-by-field comparisons. |
+| [25-question evaluation set](questions/25_q_eval_set.json) | Numbered questions and expected answers. |
+| [Model comparison](evaluations/demo-025-comparison.json) | Each model's answer, correctness and recorded API latency. |
+| [Adapter evaluation](evaluations/adapter-025-evaluation.json) | Adapter score, failure analysis and latency context. |
+| [Submitted adapter answers](questions/adapter_answer.md) | The manually collected responses. |
 
-The cases cover metric selection, customer status, relative and named periods, country aliases, plan filters, grouping and default behaviour. They also check when the model should return `needs_clarification` or `unsupported` instead of guessing.
+<details>
+<summary>Training evidence: successful v1 run and collected examples</summary>
 
-### Scoring a response
+![Mubit confirms that adapter v1 training passed](screenshots/Screenshot%202026-10-25%20at%2001.30.04.jpg)
 
-The evaluation procedure is:
+![Mubit task traffic: 160 calls and 68 kept examples](screenshots/Screenshot%202026-10-25%20at%2001.30.29.jpg)
 
-1. Confirm the request completed and the answer was not truncated.
-2. Parse the answer as JSON and validate it against the schema.
-3. Compare the parsed object with the written expected answer, ignoring object key order.
-4. Require every expected field, including explicit `null` values for unused dimensions, and reject additional fields.
-5. Record the overall exact match and which fields differ.
+</details>
 
-JSON-object response mode ensures JSON syntax; schema validity and business correctness require these separate checks.
+<details>
+<summary>Adapter answering a company analytics question</summary>
 
-The saved pilot passes all recorded checks. The current runners save responses without scoring them, and a reusable batch evaluation command has not yet been implemented.
+![Adapter interprets a German churn question with the correct metric, period and plan grouping](screenshots/Screenshot%202026-10-25%20at%2001.02.26.jpg)
 
-### Matching is different from correctness
-
-| Measurement | Question it answers |
-| --- | --- |
-| Adapter–frontier agreement | How often does the adapter return the same interpretation as the frontier model? |
-| Frontier accuracy | How often does the frontier model match the written expected answer? |
-| Adapter accuracy | How often does the adapter match the written expected answer? |
-| Field-level accuracy | Which parts of the interpretation are causing errors? |
-| Cost and latency | What does each model cost, and how quickly does it respond under comparable conditions? |
-
-An adapter can agree with an incorrect frontier answer. Both agreement and independent correctness matter.
-
-To establish frontier-level performance, evaluate both models on the same fresh, labelled questions, using the same company definitions. Report exact-match accuracy, error categories, sample size and the difference between the models against a predeclared acceptable tolerance. Measure cost and latency separately.
-
-The review batches have been used to generate training traffic, so they cannot establish independent generalisation for questions already submitted. A separate held-out evaluation set must remain outside training traffic. Mubit's own test split and Dialect's independent evaluation serve different purposes.
-
-## Current progress
-
-As of 24 October 2026:
-
-- The company definitions, fixed prompt, JSON schema and task lock are implemented.
-- There are 200 written question–answer cases and 18 explanatory contract examples.
-- Local logs record **150 successful calls** for the current Canary Labs task, including the first 50 questions from `review-002.json`.
-- Requests, responses, token usage, latency and Mubit request IDs are saved locally.
-- One pilot has a saved passing evaluation.
-- Completed adapter training, aggregate evaluation scores and frontier-level adapter performance have not yet been verified in the repository.
-
-The separate product-summary experiment under `experiments/` is outside the Canary Labs training task and its evaluation counts.
+</details>
 
 ## Run locally
 
-Requires Node.js 22 or later and a Mubit key with provider access or supported starter credit.
+- Requires **Node.js 22+** and a Mubit key with provider access or supported starter credit.
+- Install dependencies and add your key to a local `.env` file:
 
 ```bash
 npm install
 ```
 
-Create a local `.env` file:
-
 ```dotenv
 MUBIT_API_KEY=your_mubit_key
 ```
 
-Send one question through Mubit:
+Send one question:
 
 ```bash
 npm start -- q_001
 ```
 
-Select a question from the second file:
-
-```bash
-npm start -- --source questions/review-002.json q_101
-```
-
-Single-question commands send a new request each time. To preview a batch without sending calls:
+Preview a batch, then remove `--dry-run` to send it:
 
 ```bash
 npm run send:mubit -- --source questions/review-002.json --from q_101 --count 50 --dry-run
 ```
 
-To submit the next 50 questions:
-
-```bash
-npm run send:mubit -- --source questions/review-002.json --from q_151 --count 50
-```
-
-The batch runner skips matching completed records for the current task and stops on a failed request. Calls consume provider access or starter credit. Outputs are written to `dialect/results/`; evaluation is a separate step.
-
-Keep the company prompt, schema, model and output format stable during collection. [`dialect/task-lock.json`](dialect/task-lock.json) records the task configuration, and the runners check it before sending requests.
-
-## Project structure
-
-```text
-dialect/
-  company.json             Company glossary and business rules
-  task.mjs                 Fixed prompt, model settings and lock check
-  task-lock.json           Recorded task configuration
-  query-spec.schema.json   Output contract
-  contract-examples.json   Written examples and rule explanations
-  results/                 Saved model calls
-questions/                 Labelled question batches
-evaluations/               Saved correctness evaluations
-index.mjs                  Single-question Mubit runner
-send-mubit.mjs             Batch Mubit runner
-test-openai.mjs            Optional direct-provider response collection
-experiments/               Separate exploratory tasks
-dialect-project-brief.md   Detailed project background and roadmap
-```
+- Requests and responses are saved under `dialect/results/`.
+- The batch runner skips matching completed calls and stops on failure.
+- The [task lock](dialect/task-lock.json) keeps the company prompt, model settings and output contract consistent.
