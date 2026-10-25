@@ -1,0 +1,164 @@
+{
+  "evaluated_at": "2026-10-25T01:27:17.587244+00:00",
+  "questions_source": "questions/25_q_eval_set.json",
+  "questions_sha256": "1554e7a4b982d59daf617c9d8eb7106b1aadca87c05e7685b389bd00ec736f56",
+  "responses_sha256": "050e86fd04b9d111fc55104d148cdd0d8c884b926d741b3b772db4e5ef586dcf",
+  "model": "mubit-adapter",
+  "response_collection": "Manually supplied numbered responses; evaluated as submitted.",
+  "scoring": "JSON schema validation and exact object match, ignoring key order; required nulls and period tokens must match. No date normalization.",
+  "summary": {
+    "correct": 20,
+    "total": 25,
+    "accuracy_pct": 80.0,
+    "failed_ids": [
+      19,
+      20,
+      21,
+      24,
+      25
+    ],
+    "average_latency_ms": 970.0,
+    "answers_received": 25,
+    "json_valid": 25,
+    "schema_valid": 25
+  },
+  "by_case_type": {
+    "supported_queries": {
+      "correct": 20,
+      "total": 21
+    },
+    "needs_clarification": {
+      "correct": 0,
+      "total": 4
+    }
+  },
+  "latency_comparison": {
+    "models": {
+      "gpt-6-sol": {
+        "average_latency_ms": 1552.96,
+        "median_latency_ms": 1344,
+        "min_latency_ms": 895,
+        "max_latency_ms": 3726,
+        "samples": 25,
+        "measurement": "Client wall-clock time to receive the complete API response, including network time."
+      },
+      "gpt-6-luna": {
+        "average_latency_ms": 2125.68,
+        "median_latency_ms": 2155,
+        "min_latency_ms": 1423,
+        "max_latency_ms": 3278,
+        "samples": 25,
+        "measurement": "Client wall-clock time to receive the complete API response, including network time."
+      },
+      "gpt-4.1-mini": {
+        "average_latency_ms": 635,
+        "median_latency_ms": 633,
+        "min_latency_ms": 440,
+        "max_latency_ms": 894,
+        "samples": 25,
+        "measurement": "Client wall-clock time to receive the complete API response, including network time."
+      },
+      "mubit-adapter": {
+        "average_latency_ms": 970.0,
+        "samples": null,
+        "measurement": "User-reported average in the submitted adapter answers; individual timings and sample count not supplied."
+      }
+    },
+    "api_timing_provenance": "For each API model, 21 timings come from saved request logs; the remaining four are preserved from the earlier completed-run output after the raw files were removed during cleanup.",
+    "comparability": "Same 25 question texts for the API models, across separate runs. The adapter average may use different timing boundaries; these are indicative measurements, not a controlled speed benchmark."
+  },
+  "failures": [
+    {
+      "id": 19,
+      "question": "How much revenue have our Canadian customers generated recently?",
+      "expected": {
+        "error": "needs_clarification"
+      },
+      "actual": {
+        "metric": "net_revenue",
+        "filter": null,
+        "period": "this_month",
+        "group_by": null,
+        "plan": null,
+        "country": "CA"
+      },
+      "schema_valid": true,
+      "issue": "Returned a query instead of asking for clarification."
+    },
+    {
+      "id": 20,
+      "question": "Show this month's results for Team customers in Germany.",
+      "expected": {
+        "error": "needs_clarification"
+      },
+      "actual": {
+        "metric": "net_revenue",
+        "filter": null,
+        "period": "this_month",
+        "group_by": null,
+        "plan": "Team",
+        "country": "DE"
+      },
+      "schema_valid": true,
+      "issue": "Returned a query instead of asking for clarification."
+    },
+    {
+      "id": 21,
+      "question": "Which country performed best last quarter?",
+      "expected": {
+        "error": "needs_clarification"
+      },
+      "actual": {
+        "metric": "net_revenue",
+        "filter": null,
+        "period": "last_quarter",
+        "group_by": "country",
+        "plan": null,
+        "country": null
+      },
+      "schema_valid": true,
+      "issue": "Returned a query instead of asking for clarification."
+    },
+    {
+      "id": 24,
+      "question": "For British Team accounts, give last quarter's average revenue per customer, grouped by country.",
+      "expected": {
+        "metric": "avg_revenue_per_customer",
+        "filter": null,
+        "period": "last_quarter",
+        "group_by": "country",
+        "plan": "Team",
+        "country": "GB"
+      },
+      "actual": {
+        "metric": "avg_revenue_per_customer",
+        "filter": null,
+        "period": "last_quarter",
+        "group_by": "country",
+        "plan": "Team",
+        "country": null
+      },
+      "schema_valid": true,
+      "wrong_fields": [
+        "country"
+      ]
+    },
+    {
+      "id": 25,
+      "question": "For Team customers, which country performed best this year?",
+      "expected": {
+        "error": "needs_clarification"
+      },
+      "actual": {
+        "metric": "net_revenue",
+        "filter": null,
+        "period": "this_year",
+        "group_by": "country",
+        "plan": "Team",
+        "country": null
+      },
+      "schema_valid": true,
+      "issue": "Returned a query instead of asking for clarification."
+    }
+  ]
+}
