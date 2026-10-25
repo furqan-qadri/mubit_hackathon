@@ -1,4 +1,4 @@
-# Project: Dialytics — Analytics, but with company dialect
+# Mubit Project: Dialytics — Analytics, but with company dialect
 
 **Every company speaks its own dialect of data. Dialytics teaches a lightweight model to understand yours.**
 
