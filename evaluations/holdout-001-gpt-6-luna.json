@@ -1,0 +1,49 @@
+{
+  "evaluated_at": "2026-10-25T00:05:27.283641+00:00",
+  "questions_source": "questions/holdout-001.json",
+  "questions_sha256": "e6db451776d087448ea0de20d201094fc25246bcffab34002efdf55cb9d253a0",
+  "schema_source": "dialect/query-spec.schema.json",
+  "schema_sha256": "a96af2a1869ebe94d9a2301d392a39281efdbe595cba7afe224644dfd4ed602d",
+  "total_questions": 30,
+  "method": "Require completed, untruncated responses; parse JSON; validate Draft 2020-12 schema; compare exact objects ignoring key order. Required nulls and period tokens must match; no date normalization.",
+  "models": {
+    "gpt-6-luna": {
+      "source_log": "dialect/results/openai-questions-gpt-6-luna-2026-10-25T00-04-07-873Z-22e2cb8f.json",
+      "source_sha256": "517dc30cbb9abe54ed798f520c8adb4e8cdcd194519340206c2c634f2f612069",
+      "request_settings": {
+        "max_completion_tokens": 2048,
+        "reasoning_effort": "medium"
+      },
+      "completed": 30,
+      "json_valid": 30,
+      "schema_valid": 30,
+      "correct": 28,
+      "incorrect": 2,
+      "exact_match_accuracy_pct": 93.33,
+      "average_latency_ms": 2062,
+      "failures": [
+        {
+          "id": "holdout_018",
+          "differences": {
+            "period": {
+              "expected": "last_month",
+              "actual": "2026-09"
+            }
+          },
+          "schema_valid": true
+        },
+        {
+          "id": "holdout_027",
+          "differences": {
+            "error": {
+              "expected": "needs_clarification",
+              "actual": "unsupported"
+            }
+          },
+          "schema_valid": true
+        }
+      ]
+    }
+  },
+  "scope": "Scores on the same fixed 30-question holdout used for Sol and Mini; no adapter evaluated."
+}

@@ -15,6 +15,7 @@ import {
 const OPENAI_BASE_URL = "https://api.openai.com/v1";
 const MODEL_SETTINGS = {
   "gpt-4.1-mini": { max_tokens: 256 },
+  "gpt-6-luna": { max_completion_tokens: 2048, reasoning_effort: "medium" },
   "gpt-6-sol": { max_completion_tokens: 2048, reasoning_effort: "medium" },
 };
 
