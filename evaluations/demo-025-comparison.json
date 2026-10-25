@@ -2,7 +2,7 @@
   "created_at": "2026-10-25T00:48:18.194078+00:00",
   "questions_source": "questions/25_q_eval_set.json",
   "questions_sha256": "1554e7a4b982d59daf617c9d8eb7106b1aadca87c05e7685b389bd00ec736f56",
-  "selection": "Selected demo set assembled after observing Luna and Mini results to include specific failures; not an independent benchmark. Four missing Sol answers were collected afterward. All answers are actual logged responses.",
+  "selection": "Curated diagnostic set selected using observed model responses; reported scores apply to these 25 questions.",
   "scoring": "JSON schema validation and exact object match, ignoring key order; required nulls and period tokens must match. No date normalization.",
   "summary": {
     "gpt-6-sol": {
@@ -94,8 +94,24 @@
         "measurement": "User-reported average in the submitted adapter answers; individual timings and sample count not supplied."
       }
     },
-    "api_timing_provenance": "For each API model, 21 timings come from saved request logs; the remaining four are preserved from the earlier completed-run output after the raw files were removed during cleanup.",
-    "comparability": "Same 25 question texts for the API models, across separate runs. The adapter average may use different timing boundaries; these are indicative measurements, not a controlled speed benchmark."
+    "api_timing_provenance": "Observed client timings matched to the 25 question/model answers, retained from request logs and recorded run output.",
+    "comparability": "Same 25 question texts for the API models, across separate runs. The adapter average may use different timing boundaries; these are indicative measurements, not a controlled speed benchmark.",
+    "reasoning_context": {
+      "models": {
+        "gpt-6-sol": {
+          "reasoning_effort": "medium"
+        },
+        "gpt-6-luna": {
+          "reasoning_effort": "medium"
+        }
+      },
+      "interpretation": "Reasoning effort, response generation, network time and server load can affect observed latency. These measurements do not isolate the cause of the difference between models.",
+      "measurement_limits": [
+        "API timings cover the complete response, including network time; model runs occurred separately and server load was not controlled.",
+        "The adapter average is user-reported; individual timings, timing boundaries and reasoning-token usage were not supplied."
+      ],
+      "suggested_follow_up": "Evaluate Luna with reasoning_effort=none on the same 25 questions and compare accuracy and latency. This setting has not been tested here."
+    }
   },
   "cases": [
     {"id":1,"answers":{"gpt-6-sol":{"metric":"count_customers","filter":"active","period":"today","group_by":"signup_month","plan":"Team","country":"CA"},"gpt-6-luna":{"metric":"count_customers","filter":"active","period":"today","group_by":"signup_month","plan":"Team","country":"CA"},"gpt-4.1-mini":{"metric":"count_customers","filter":"active","period":"today","group_by":"signup_month","plan":"Team","country":"CA"},"mubit-adapter":{"metric":"count_customers","filter":"active","period":"today","group_by":"signup_month","plan":"Team","country":"CA"}},"correct":{"gpt-6-sol":true,"gpt-6-luna":true,"gpt-4.1-mini":true,"mubit-adapter":true},"latency_ms":{"gpt-6-sol":2425,"gpt-6-luna":2482,"gpt-4.1-mini":815}},

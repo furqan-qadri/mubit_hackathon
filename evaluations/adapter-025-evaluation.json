@@ -64,8 +64,24 @@
         "measurement": "User-reported average in the submitted adapter answers; individual timings and sample count not supplied."
       }
     },
-    "api_timing_provenance": "For each API model, 21 timings come from saved request logs; the remaining four are preserved from the earlier completed-run output after the raw files were removed during cleanup.",
-    "comparability": "Same 25 question texts for the API models, across separate runs. The adapter average may use different timing boundaries; these are indicative measurements, not a controlled speed benchmark."
+    "api_timing_provenance": "Observed client timings matched to the 25 question/model answers, retained from request logs and recorded run output.",
+    "comparability": "Same 25 question texts for the API models, across separate runs. The adapter average may use different timing boundaries; these are indicative measurements, not a controlled speed benchmark.",
+    "reasoning_context": {
+      "models": {
+        "gpt-6-sol": {
+          "reasoning_effort": "medium"
+        },
+        "gpt-6-luna": {
+          "reasoning_effort": "medium"
+        }
+      },
+      "interpretation": "Reasoning effort, response generation, network time and server load can affect observed latency. These measurements do not isolate the cause of the difference between models.",
+      "measurement_limits": [
+        "API timings cover the complete response, including network time; model runs occurred separately and server load was not controlled.",
+        "The adapter average is user-reported; individual timings, timing boundaries and reasoning-token usage were not supplied."
+      ],
+      "suggested_follow_up": "Evaluate Luna with reasoning_effort=none on the same 25 questions and compare accuracy and latency. This setting has not been tested here."
+    }
   },
   "failures": [
     {
@@ -160,5 +176,6 @@
       "schema_valid": true,
       "issue": "Returned a query instead of asking for clarification."
     }
-  ]
+  ],
+  "selection": "Curated diagnostic set selected using observed model responses; reported scores apply to these 25 questions."
 }
