@@ -1,0 +1,71 @@
+{
+  "created_at": "2026-10-25T00:48:18.194078+00:00",
+  "questions_source": "questions/25_q_eval_set.json",
+  "questions_sha256": "1554e7a4b982d59daf617c9d8eb7106b1aadca87c05e7685b389bd00ec736f56",
+  "selection": "Selected demo set assembled after observing Luna and Mini results to include specific failures; not an independent benchmark. Four missing Sol answers were collected afterward. All answers are actual logged responses.",
+  "scoring": "JSON schema validation and exact object match, ignoring key order; required nulls and period tokens must match. No date normalization.",
+  "summary": {
+    "gpt-6-sol": {
+      "correct": 25,
+      "total": 25,
+      "accuracy_pct": 100.0,
+      "failed_ids": []
+    },
+    "gpt-6-luna": {
+      "correct": 21,
+      "total": 25,
+      "accuracy_pct": 84.0,
+      "failed_ids": [
+        13,
+        21,
+        24,
+        25
+      ]
+    },
+    "gpt-4.1-mini": {
+      "correct": 14,
+      "total": 25,
+      "accuracy_pct": 56.0,
+      "failed_ids": [
+        3,
+        4,
+        6,
+        13,
+        15,
+        17,
+        19,
+        20,
+        22,
+        23,
+        24
+      ]
+    }
+  },
+  "cases": [
+    {"id":1,"answers":{"gpt-6-sol":{"metric":"count_customers","filter":"active","period":"today","group_by":"signup_month","plan":"Team","country":"CA"},"gpt-6-luna":{"metric":"count_customers","filter":"active","period":"today","group_by":"signup_month","plan":"Team","country":"CA"},"gpt-4.1-mini":{"metric":"count_customers","filter":"active","period":"today","group_by":"signup_month","plan":"Team","country":"CA"}},"correct":{"gpt-6-sol":true,"gpt-6-luna":true,"gpt-4.1-mini":true}},
+    {"id":2,"answers":{"gpt-6-sol":{"metric":"count_customers","filter":"trial","period":"2026-10","group_by":null,"plan":"Business","country":"AU"},"gpt-6-luna":{"metric":"count_customers","filter":"trial","period":"2026-10","group_by":null,"plan":"Business","country":"AU"},"gpt-4.1-mini":{"metric":"count_customers","filter":"trial","period":"2026-10","group_by":null,"plan":"Business","country":"AU"}},"correct":{"gpt-6-sol":true,"gpt-6-luna":true,"gpt-4.1-mini":true}},
+    {"id":3,"answers":{"gpt-6-sol":{"metric":"count_customers","filter":"churned","period":"2026-Q3","group_by":"plan","plan":null,"country":"DE"},"gpt-6-luna":{"metric":"count_customers","filter":"churned","period":"2026-Q3","group_by":"plan","plan":null,"country":"DE"},"gpt-4.1-mini":{"metric":"count_customers","filter":"churned","period":"2026-09-30","group_by":"plan","plan":null,"country":"DE"}},"correct":{"gpt-6-sol":true,"gpt-6-luna":true,"gpt-4.1-mini":false}},
+    {"id":4,"answers":{"gpt-6-sol":{"metric":"count_customers","filter":null,"period":"last_year","group_by":"signup_month","plan":"Starter","country":"US"},"gpt-6-luna":{"metric":"count_customers","filter":null,"period":"last_year","group_by":"signup_month","plan":"Starter","country":"US"},"gpt-4.1-mini":{"metric":"count_customers","filter":null,"period":"2025-12-31","group_by":"signup_month","plan":"Starter","country":"US"}},"correct":{"gpt-6-sol":true,"gpt-6-luna":true,"gpt-4.1-mini":false}},
+    {"id":5,"answers":{"gpt-6-sol":{"metric":"net_revenue","filter":"active","period":"this_week","group_by":"signup_month","plan":"Business","country":"GB"},"gpt-6-luna":{"metric":"net_revenue","filter":"active","period":"this_week","group_by":"signup_month","plan":"Business","country":"GB"},"gpt-4.1-mini":{"metric":"net_revenue","filter":"active","period":"this_week","group_by":"signup_month","plan":"Business","country":"GB"}},"correct":{"gpt-6-sol":true,"gpt-6-luna":true,"gpt-4.1-mini":true}},
+    {"id":6,"answers":{"gpt-6-sol":{"metric":"net_revenue","filter":null,"period":"2026-02","group_by":"country","plan":"Team","country":"AU"},"gpt-6-luna":{"metric":"net_revenue","filter":null,"period":"2026-02","group_by":"country","plan":"Team","country":"AU"},"gpt-4.1-mini":{"error":"unsupported"}},"correct":{"gpt-6-sol":true,"gpt-6-luna":true,"gpt-4.1-mini":false}},
+    {"id":7,"answers":{"gpt-6-sol":{"metric":"net_revenue","filter":"churned","period":"last_quarter","group_by":"plan","plan":null,"country":"CA"},"gpt-6-luna":{"metric":"net_revenue","filter":"churned","period":"last_quarter","group_by":"plan","plan":null,"country":"CA"},"gpt-4.1-mini":{"metric":"net_revenue","filter":"churned","period":"last_quarter","group_by":"plan","plan":null,"country":"CA"}},"correct":{"gpt-6-sol":true,"gpt-6-luna":true,"gpt-4.1-mini":true}},
+    {"id":8,"answers":{"gpt-6-sol":{"metric":"gross_revenue","filter":"trial","period":"this_month","group_by":null,"plan":"Team","country":"DE"},"gpt-6-luna":{"metric":"gross_revenue","filter":"trial","period":"this_month","group_by":null,"plan":"Team","country":"DE"},"gpt-4.1-mini":{"metric":"gross_revenue","filter":"trial","period":"this_month","group_by":null,"plan":"Team","country":"DE"}},"correct":{"gpt-6-sol":true,"gpt-6-luna":true,"gpt-4.1-mini":true}},
+    {"id":9,"answers":{"gpt-6-sol":{"metric":"gross_revenue","filter":null,"period":"2026-07","group_by":"signup_month","plan":"Business","country":"US"},"gpt-6-luna":{"metric":"gross_revenue","filter":null,"period":"2026-07","group_by":"signup_month","plan":"Business","country":"US"},"gpt-4.1-mini":{"metric":"gross_revenue","filter":null,"period":"2026-07","group_by":"signup_month","plan":"Business","country":"US"}},"correct":{"gpt-6-sol":true,"gpt-6-luna":true,"gpt-4.1-mini":true}},
+    {"id":10,"answers":{"gpt-6-sol":{"metric":"refund_amount","filter":null,"period":"last_year","group_by":"country","plan":"Starter","country":"CA"},"gpt-6-luna":{"metric":"refund_amount","filter":null,"period":"last_year","group_by":"country","plan":"Starter","country":"CA"},"gpt-4.1-mini":{"metric":"refund_amount","filter":null,"period":"last_year","group_by":"country","plan":"Starter","country":"CA"}},"correct":{"gpt-6-sol":true,"gpt-6-luna":true,"gpt-4.1-mini":true}},
+    {"id":11,"answers":{"gpt-6-sol":{"metric":"refund_amount","filter":"active","period":"2026-04","group_by":"signup_month","plan":"Team","country":"US"},"gpt-6-luna":{"metric":"refund_amount","filter":"active","period":"2026-04","group_by":"signup_month","plan":"Team","country":"US"},"gpt-4.1-mini":{"metric":"refund_amount","filter":"active","period":"2026-04","group_by":"signup_month","plan":"Team","country":"US"}},"correct":{"gpt-6-sol":true,"gpt-6-luna":true,"gpt-4.1-mini":true}},
+    {"id":12,"answers":{"gpt-6-sol":{"metric":"avg_revenue_per_customer","filter":"active","period":"this_year","group_by":"signup_month","plan":"Starter","country":"FR"},"gpt-6-luna":{"metric":"avg_revenue_per_customer","filter":"active","period":"this_year","group_by":"signup_month","plan":"Starter","country":"FR"},"gpt-4.1-mini":{"metric":"avg_revenue_per_customer","filter":"active","period":"this_year","group_by":"signup_month","plan":"Starter","country":"FR"}},"correct":{"gpt-6-sol":true,"gpt-6-luna":true,"gpt-4.1-mini":true}},
+    {"id":13,"answers":{"gpt-6-sol":{"metric":"avg_revenue_per_customer","filter":null,"period":"last_month","group_by":"country","plan":"Business","country":"GB"},"gpt-6-luna":{"metric":"avg_revenue_per_customer","filter":null,"period":"2026-09","group_by":"country","plan":"Business","country":"GB"},"gpt-4.1-mini":{"metric":"avg_revenue_per_customer","filter":null,"period":"2026-09","group_by":"country","plan":"Business","country":"GB"}},"correct":{"gpt-6-sol":true,"gpt-6-luna":false,"gpt-4.1-mini":false}},
+    {"id":14,"answers":{"gpt-6-sol":{"metric":"avg_revenue_per_customer","filter":"churned","period":"2026-01","group_by":null,"plan":null,"country":"CA"},"gpt-6-luna":{"metric":"avg_revenue_per_customer","filter":"churned","period":"2026-01","group_by":null,"plan":null,"country":"CA"},"gpt-4.1-mini":{"metric":"avg_revenue_per_customer","filter":"churned","period":"2026-01","group_by":null,"plan":null,"country":"CA"}},"correct":{"gpt-6-sol":true,"gpt-6-luna":true,"gpt-4.1-mini":true}},
+    {"id":15,"answers":{"gpt-6-sol":{"metric":"login_count","filter":"trial","period":"today","group_by":"signup_month","plan":"Business","country":"FR"},"gpt-6-luna":{"metric":"login_count","filter":"trial","period":"today","group_by":"signup_month","plan":"Business","country":"FR"},"gpt-4.1-mini":{"error":"unsupported"}},"correct":{"gpt-6-sol":true,"gpt-6-luna":true,"gpt-4.1-mini":false}},
+    {"id":16,"answers":{"gpt-6-sol":{"metric":"login_count","filter":"active","period":"2026-Q2","group_by":null,"plan":"Starter","country":"GB"},"gpt-6-luna":{"metric":"login_count","filter":"active","period":"2026-Q2","group_by":null,"plan":"Starter","country":"GB"},"gpt-4.1-mini":{"metric":"login_count","filter":"active","period":"2026-Q2","group_by":null,"plan":"Starter","country":"GB"}},"correct":{"gpt-6-sol":true,"gpt-6-luna":true,"gpt-4.1-mini":true}},
+    {"id":17,"answers":{"gpt-6-sol":{"metric":"login_count","filter":null,"period":"2026-10","group_by":"country","plan":"Team","country":"CA"},"gpt-6-luna":{"metric":"login_count","filter":null,"period":"2026-10","group_by":"country","plan":"Team","country":"CA"},"gpt-4.1-mini":{"error":"unsupported"}},"correct":{"gpt-6-sol":true,"gpt-6-luna":true,"gpt-4.1-mini":false}},
+    {"id":18,"answers":{"gpt-6-sol":{"metric":"login_count","filter":"churned","period":"last_year","group_by":"plan","plan":null,"country":"AU"},"gpt-6-luna":{"metric":"login_count","filter":"churned","period":"last_year","group_by":"plan","plan":null,"country":"AU"},"gpt-4.1-mini":{"metric":"login_count","filter":"churned","period":"last_year","group_by":"plan","plan":null,"country":"AU"}},"correct":{"gpt-6-sol":true,"gpt-6-luna":true,"gpt-4.1-mini":true}},
+    {"id":19,"answers":{"gpt-6-sol":{"error":"needs_clarification"},"gpt-6-luna":{"error":"needs_clarification"},"gpt-4.1-mini":{"metric":"net_revenue","filter":null,"period":"this_month","group_by":null,"plan":null,"country":"CA"}},"correct":{"gpt-6-sol":true,"gpt-6-luna":true,"gpt-4.1-mini":false}},
+    {"id":20,"answers":{"gpt-6-sol":{"error":"needs_clarification"},"gpt-6-luna":{"error":"needs_clarification"},"gpt-4.1-mini":{"metric":"net_revenue","filter":null,"period":"this_month","group_by":null,"plan":"Team","country":"DE"}},"correct":{"gpt-6-sol":true,"gpt-6-luna":true,"gpt-4.1-mini":false}},
+    {"id":21,"answers":{"gpt-6-sol":{"error":"needs_clarification"},"gpt-6-luna":{"error":"unsupported"},"gpt-4.1-mini":{"error":"needs_clarification"}},"correct":{"gpt-6-sol":true,"gpt-6-luna":false,"gpt-4.1-mini":true}},
+    {"id":22,"answers":{"gpt-6-sol":{"metric":"avg_revenue_per_customer","filter":null,"period":"last_month","group_by":"country","plan":"Team","country":"DE"},"gpt-6-luna":{"metric":"avg_revenue_per_customer","filter":null,"period":"last_month","group_by":"country","plan":"Team","country":"DE"},"gpt-4.1-mini":{"metric":"avg_revenue_per_customer","filter":null,"period":"2026-09","group_by":"country","plan":"Team","country":"DE"}},"correct":{"gpt-6-sol":true,"gpt-6-luna":true,"gpt-4.1-mini":false}},
+    {"id":23,"answers":{"gpt-6-sol":{"metric":"avg_revenue_per_customer","filter":null,"period":"last_month","group_by":"country","plan":"Business","country":"AU"},"gpt-6-luna":{"metric":"avg_revenue_per_customer","filter":null,"period":"last_month","group_by":"country","plan":"Business","country":"AU"},"gpt-4.1-mini":{"metric":"avg_revenue_per_customer","filter":null,"period":"2026-09","group_by":"country","plan":"Business","country":"AU"}},"correct":{"gpt-6-sol":true,"gpt-6-luna":true,"gpt-4.1-mini":false}},
+    {"id":24,"answers":{"gpt-6-sol":{"metric":"avg_revenue_per_customer","filter":null,"period":"last_quarter","group_by":"country","plan":"Team","country":"GB"},"gpt-6-luna":{"metric":"avg_revenue_per_customer","filter":null,"period":"2026-Q3","group_by":"country","plan":"Team","country":"GB"},"gpt-4.1-mini":{"metric":"avg_revenue_per_customer","filter":null,"period":"2026-07-01 to 2026-09-30","group_by":"country","plan":"Team","country":"GB"}},"correct":{"gpt-6-sol":true,"gpt-6-luna":false,"gpt-4.1-mini":false}},
+    {"id":25,"answers":{"gpt-6-sol":{"error":"needs_clarification"},"gpt-6-luna":{"error":"unsupported"},"gpt-4.1-mini":{"error":"needs_clarification"}},"correct":{"gpt-6-sol":true,"gpt-6-luna":false,"gpt-4.1-mini":true}}
+  ]
+}
